@@ -77,6 +77,7 @@ is recorded in [`data/manifest.json`](data/manifest.json), which
 | `data/defillama_intents_dexs.json` | DefiLlama /summary/dexs | — | 2026-11-14 |
 | `data/defillama_intents_fees.json` | DefiLlama /summary/fees | — | 2026-11-14 |
 | `data/ethereum_price_daily.csv` | CoinGecko market_chart | 365 | 2026-11-14 |
+| `data/f1_margin_series.json` | The F1 falsifier at full resolution: all 675 daily 30-day-average Intents volume readings against the $75M floor — the series behind the §7 backtest and the Risks margin chart | 675 | 2026-11-14 |
 | `data/falsifiers.json` | scripts/check_falsifiers.py | 6 | 2026-11-14 |
 | `data/intents_fees_daily.csv` | DefiLlama /summary/fees | 553 | 2026-11-14 |
 | `data/intents_revenue_daily.csv` | revenue.near.org (RSC scrape) | 317 | 2026-11-14 |
