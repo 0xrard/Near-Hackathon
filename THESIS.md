@@ -92,6 +92,24 @@ The model (`model/model.py`, assumptions in `model/config.yaml`) computes three 
 
 **Current outputs:** computed, 14 November 2026 11:42 UTC — see `data/model_outputs.json`. `placeholder: false`; every input is fetched or measured data.
 
+### The threshold, measured through time
+
+One measurement this report adds is the threshold tracked through time. V* is usually quoted once, on the day of writing; recomputed per calendar month through 2026 — monthly-average Intents volume and NEAR price, with the model's inputs held constant (gross take 16 bps, capture 32.6%, a net take of 5.22 bps; issuance 2.5%) — the multiple is not a fixed target. It stood at 3.2x in January, fell to its closest point of the year in February (2.2x, at an average price of $1.07), and widened again as the price recovered: 3.4x in September, 6.6x in October, 4.9x in November. October is the instructive month: volume was near its record ($129M/day average) yet deflation was furthest away all year, because V* scales with the price and the average price reached $4.90. A rising price therefore raises the volume the plan must deliver before net issuance turns negative — the market paying for delivery raises the cost of delivering. The two conventions agree where they should: November's monthly average (4.9x) sits beside Figure 7's single-date reading at the 14 November snapshot (4.5x) — the same model, evaluated two ways; the gap is the month's higher average price ($3.80 against $3.33).
+
+| Month | Volume (avg $M/day) | Price (avg $) | V* ($M/day) | Distance |
+|---|---|---|---|---|
+| Jan | 87.9 | 1.62 | 279 | 3.2x |
+| Feb | 84.9 | 1.07 | 184 | 2.2x |
+| Mar | 67.1 | 1.28 | 221 | 3.3x |
+| Apr | 63.2 | 1.34 | 230 | 3.7x |
+| May | 64.4 | 1.77 | 305 | 4.7x |
+| Jun | 78.5 | 2.13 | 367 | 4.7x |
+| Jul | 71.1 | 1.89 | 325 | 4.6x |
+| Aug | 89.6 | 1.73 | 299 | 3.3x |
+| Sep | 160.1 | 3.19 | 550 | 3.4x |
+| Oct | 128.6 | 4.90 | 844 | 6.6x |
+| Nov | 133.6 | 3.80 | 654 | 4.9x |
+
 ### Verdict: priced for delivery
 
 The settlement mechanism is real — Intents is the #2 contract on NEAR by function calls (12.3%), cumulative volume is $37.78B at $126.58M/day — but the price already reflects it. At **145× captured fees (62.3× gross)**, with on-chain activity down ~70–80% year over year, sub-hypothesis B failed, no lead established, and the deflationary threshold 2.9–4.5× above current volume (reached only in the bull case, and only after the 1.6% issuance cut), the market is paying for delivery that has not arrived. That is the thesis: **priced for delivery, not priced for failure.** What would overturn it is in §7.
@@ -113,7 +131,7 @@ The thesis is wrong — or not worth holding — if any of these show up in the 
 | F5 | ETF outflows 4+ weeks | net outflows 4 consecutive weeks | no public ETF-flow endpoint | Cannot check |
 | F6 | Net-revenue run-rate stalls | current run-rate < 2× run-rate 4 quarters ago | $22.28M/yr vs $1.41M/yr = 15.8× | Not triggered |
 
-Note on F4: the balance/receipts figures above are the frozen dashboard snapshot (2,280,770.08 NEAR / 768 receipts). The fresh `buyback_wallet_30d.json` pull in this repo reads 2,281,071.57 NEAR / 767 receipts — the wallet accrues inbound transfers intraday, so the two differ by drift, not by error. Either reading leaves F4 untriggered (outflow 0.00 in both).
+Note on F4: the balance/receipts figures above are the frozen dashboard snapshot (2,280,770.08 NEAR / 768 receipts). The fresh `buyback_wallet_30d.json` pull in this repo reads 2,281,071.57 NEAR / 767 receipts — the wallet accrues inbound transfers intraday, so the two differ by drift, not by error. Either reading leaves F4 untriggered (outflow 0.00 in both). The full-history census (§5) read all 3,408 receipts: only three outflows totalling 12,025 NEAR (0.5% of inflows) across the wallet's whole life, so the sink characterization holds beyond the 30-day window.
 
 - Intents volume **only follows** price (no lead at any lag in the lead/lag test), i.e. volume is a consequence of speculation, not of usage. **Status: not established either way on levels; on changes there is no correlation (repo test r = −0.098 best lag, placebo p = 0.592; PDF v3 r ≈ 0.01). The lead leg is unproven, which already weakens the claim.**
 - Sub-hypothesis A fails: >80% of volume is one-off addresses. **Status: uncomputed (no JWT).**

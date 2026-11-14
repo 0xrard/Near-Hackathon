@@ -96,6 +96,8 @@ Only **F1 and F2 can move**. They are driven by the live fetch and by the kill-s
 | F5 | ETF flows | Static | Outflow for 4 straight weeks | Cannot be checked |
 | F6 | Revenue growth | Static | Run-rate fails to double | $22.28M/yr vs $1.41M/yr (15.8x) — not triggered |
 
+**Pre-registration.** The six falsifiers above were defined before the 14 Nov 2026 snapshot, not after it. They were set out in the author's earlier public working repo, [near-investment-thesis](https://github.com/0xrard/near-investment-thesis) — its `data/falsifiers.json` was generated 13 Nov 2026 14:31 UTC (data as of 12 Nov 2026) with the same six falsifiers and the same thresholds, and its commit history (from 12 Nov 2026) predates this submission's snapshot. That repo remains public, so the pre-registration can be checked there.
+
 Why F3–F6 do not update live:
 
 - **F3** is a calendar test. Its deadline is 30 June 2027, so there is nothing to measure until that date approaches.
