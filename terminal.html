@@ -20,8 +20,15 @@
            font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
            -webkit-font-smoothing:antialiased;}
       .wrap{max-width:1080px;margin:0 auto;padding:30px 18px 64px}
-      .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;
+      .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;
               padding-bottom:16px}
+      .topleft{display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+      .backlink{display:inline-flex;align-items:center;background:var(--card);border:1px solid var(--line);
+                border-radius:999px;padding:5px 14px;font-size:12px;font-weight:600;color:var(--tealdark);
+                text-decoration:none;box-shadow:var(--shadow-sm);white-space:nowrap;
+                transition:border-color .15s ease,background .15s ease}
+      .backlink:hover{border-color:rgba(0,220,176,.55);background:rgba(0,220,176,.08);text-decoration:underline}
+      .backlink:focus-visible{outline:2px solid var(--teal);outline-offset:2px}
       .stamp{color:var(--dim);font-size:12.5px}
       .hero{text-align:center;padding:34px 12px 8px}
       .srcbadge{display:inline-block;background:var(--card);border:1px solid var(--line);
@@ -46,7 +53,7 @@
       .statuschip.live .dot{background:var(--teal);box-shadow:0 0 0 3px rgba(0,220,176,.18)}
       .statuschip.failed{color:var(--amber);border-color:rgba(224,168,60,.55);background:rgba(224,168,60,.08)}
       .statuschip.failed .dot{background:var(--amber)}
-      h1.trialhead{font-size:clamp(34px,5.4vw,56px);line-height:1.06;margin:22px auto 14px;
+      h1.trialhead{font-size:clamp(26px,4.2vw,40px);line-height:1.06;margin:22px auto 14px;
                    font-weight:850;letter-spacing:-.02em;max-width:820px}
       .lede{color:var(--dim);font-size:16.5px;max-width:720px;margin:0 auto 26px;line-height:1.65}
       .lede b{color:var(--ink)}
@@ -416,8 +423,11 @@
 
         return e("div", { className: "wrap" },
           e("div", { className: "topbar" },
-            e("span", { className: "srcbadge" }, "Data source: ",
-              e("b", null, live ? "live \u2014 DefiLlama, fetched at load (F1, price, V*)" : "embedded snapshot \u2014 checker run of 13 Nov 2026")),
+            e("div", { className: "topleft" },
+              e("span", { className: "srcbadge" }, "Data source: ",
+                e("b", null, "embedded snapshot \u2014 checker run of 13 Nov 2026")),
+              e("a", { className: "backlink", href: "https://0xrard.github.io/Near-Hackathon/" }, "\u2190 Back to dashboard")
+            ),
             statusChip
           ),
           e("div", { className: "hero" },

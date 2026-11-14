@@ -65,19 +65,19 @@
       .top-actions{ justify-self:end; display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
       .recheck{
         font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.04em; cursor:pointer;
-        color:var(--teal-ink); background:var(--teal-grad); border:1px solid transparent;
+        color:#041210; background:#ffffff; border:1px solid #ffffff;
         border-radius:999px; padding:8px 18px; min-height:2.25rem; white-space:nowrap;
-        box-shadow:0 6px 18px rgba(20,184,166,.32);
+        box-shadow:0 6px 18px rgba(0,0,0,.35);
         display:inline-flex; align-items:center; gap:8px;
       }
-      .recheck:hover{ filter:brightness(1.08); }
+      .recheck:hover{ background:#e8f5f1; border-color:#e8f5f1; }
       .recheck:disabled{ opacity:.65; cursor:wait; filter:none; }
-      .recheck .spin{ width:11px; height:11px; border-radius:50%; border:2px solid rgba(255,255,255,.35); border-top-color:#fff; animation:spin .7s linear infinite; display:none; flex:none; }
+      .recheck .spin{ width:11px; height:11px; border-radius:50%; border:2px solid rgba(4,18,16,.25); border-top-color:#041210; animation:spin .7s linear infinite; display:none; flex:none; }
       .recheck.loading .spin{ display:inline-block; }
       @keyframes spin{ to{ transform:rotate(360deg); } }
       @media (prefers-reduced-motion: reduce){ .recheck .spin{ animation:none; } }
-      .live-status{ font-family:var(--mono); font-size:10.5px; color:var(--ink3); text-align:right; }
-      .live-status.ok{ color:var(--green); }
+      .live-status{ font-family:var(--mono); font-size:10.5px; color:#ffffff; text-align:right; }
+      .live-status.ok{ color:#ffffff; }
       .live-status.err{ color:var(--amber); }
       .topbar nav{
         margin:0 auto; justify-self:center; display:flex; gap:2px; flex-wrap:wrap; justify-content:center;
@@ -103,7 +103,7 @@
       }
       .hero-tag{ font-family:var(--mono); font-size:12px; letter-spacing:.22em; color:var(--teal); margin:0 0 14px; }
       .hero h1{
-        margin:0; font-size:clamp(36px,6.2vw,72px); line-height:1.14; font-weight:800;
+        margin:0; font-size:clamp(28px,4.8vw,54px); line-height:1.14; font-weight:800;
         letter-spacing:-.015em; text-transform:uppercase;
         padding-bottom:.16em;
       }
@@ -132,37 +132,17 @@
       }
       .btn-outline:hover{ background:rgba(0,220,176,.08); border-color:var(--teal); }
       a.btn-outline{ text-decoration:none; display:inline-flex; align-items:center; justify-content:center; }
-      .verdict-row{ display:flex; gap:14px; flex-wrap:wrap; margin-top:30px; align-items:stretch; justify-content:center; text-align:left; }
-      .verdict-row .meter-chip{ max-width:560px; }
-      .verdict-chip{
-        border:1px solid rgba(0,220,176,.45); background:linear-gradient(135deg, rgba(13,148,136,.20), rgba(0,220,176,.07));
-        border-radius:var(--rad); padding:12px 18px; display:flex; flex-direction:column; justify-content:center;
-        box-shadow:0 0 28px rgba(20,184,166,.16);
-      }
-      .verdict-chip .k{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; color:var(--ink3); }
-      .verdict-chip .v{ font-family:var(--mono); font-size:19px; font-weight:600; color:var(--teal); }
-      .meter-chip{
-        border:1px solid var(--line2); background:var(--panel);
-        border-radius:var(--rad); padding:12px 18px; flex:1 1 260px;
-      }
-      .meter-chip .k{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; color:var(--ink3); display:flex; justify-content:space-between; }
-      .meter-chip .k b{ color:var(--ink); }
-      .meter-chip.dead{ border-color:rgba(242,109,109,.55); }
-      .meter-chip.dead .k b{ color:var(--red); }
-      .meter-track{ height:8px; background:#0d2a24; border-radius:99px; margin-top:9px; overflow:hidden; display:flex; gap:2px; }
-      .meter-seg{ flex:1; background:#17453b; border-radius:2px; }
-      .meter-seg.hit{ background:var(--red); }
-
       /* ---------- stat grid ---------- */
-      .stats{ display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin:30px 0 8px; text-align:left; }
+      .stats{ display:grid; grid-template-columns:repeat(3,auto); justify-content:center; gap:22px; margin:44px 0 6px; text-align:left; }
+      .stat{ width:100%; min-width:220px; max-width:260px; }
       .stat{
         background:linear-gradient(180deg,var(--panel2),var(--panel));
-        border:1px solid var(--line); border-radius:var(--rad); padding:18px 18px 14px;
+        border:1px solid var(--line); border-radius:var(--rad); padding:12px 14px 10px;
       }
-      .stat .k{ font-family:var(--mono); font-size:11px; letter-spacing:.14em; color:var(--ink3); text-transform:uppercase; }
-      .stat .v{ font-family:var(--mono); font-size:clamp(26px,3.4vw,36px); font-weight:600; margin-top:6px; color:var(--ink); }
+      .stat .k{ font-family:var(--mono); font-size:10.5px; letter-spacing:.14em; color:var(--ink3); text-transform:uppercase; }
+      .stat .v{ font-family:var(--mono); font-size:clamp(21px,2.5vw,27px); font-weight:600; margin-top:4px; color:var(--ink); }
       .stat .v small{ font-size:.5em; color:var(--ink3); font-weight:400; }
-      .stat .d{ font-size:13px; color:var(--ink2); margin-top:4px; }
+      .stat .d{ font-size:12.5px; color:var(--ink2); margin-top:2px; }
       .stat.hot{ border-color:var(--teal-dim); }
       .stat.hot .v{ color:var(--teal); }
 
@@ -287,24 +267,6 @@
       .codeblock .cb-t{ font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--ink3); margin-bottom:8px; }
       .codeblock pre{ margin:0; font-family:var(--mono); font-size:12px; line-height:1.6; color:var(--ink2); white-space:pre-wrap; word-break:break-word; }
 
-      /* ---------- falsifier summary card (board lives in the terminal) ---------- */
-      .falsum{
-        border:1px solid var(--line2); border-radius:14px;
-        background:linear-gradient(180deg,#07211c,var(--panel));
-        padding:22px; margin-top:26px;
-        display:flex; align-items:center; gap:22px; flex-wrap:wrap;
-      }
-      .falsum .fs-count{ flex:none; }
-      .falsum .fs-count .v{ font-family:var(--mono); font-size:44px; font-weight:600; color:var(--teal); line-height:1; }
-      .falsum .fs-count .v small{ font-size:.45em; color:var(--ink3); font-weight:400; }
-      .falsum .fs-count .k{ font-family:var(--mono); font-size:11px; letter-spacing:.16em; color:var(--ink3); margin-top:7px; }
-      .falsum .fs-body{ flex:1 1 300px; }
-      .falsum .fs-body h3{ margin:0 0 6px; font-size:19px; font-weight:700; }
-      .falsum .fs-body p{ margin:0; color:var(--ink2); font-size:14px; max-width:560px; }
-      .falsum .fs-track{ display:flex; gap:2px; margin-top:12px; max-width:300px; }
-      .falsum .fs-track i{ flex:1; height:8px; background:#17453b; border-radius:2px; }
-      .falsum .fs-link{ flex:none; }
-      @media (max-width:640px){ .falsum{ flex-direction:column; align-items:flex-start; } }
       .ctl label{ display:flex; justify-content:space-between; font-family:var(--mono); font-size:12.5px; color:var(--ink2); margin-bottom:2px; }
       .ctl label output{ color:var(--teal); font-weight:600; }
       .ctl .hint{ font-size:12px; color:var(--ink3); margin:0 0 4px; }
@@ -371,7 +333,7 @@
       .fallback{ padding:80px 24px; text-align:center; font-family:var(--mono); color:var(--ink2); }
 
       @media (max-width:900px){
-        .stats{ grid-template-columns:repeat(2,1fr); }
+        .stats{ grid-template-columns:repeat(2,auto); justify-content:center; }
         .pillars, .scen{ grid-template-columns:1fr; }
         .calc{ grid-template-columns:1fr; }
         .cols{ grid-template-columns:1fr; }
@@ -385,14 +347,16 @@
         figure.fig{ padding:14px 12px 10px; }
       }
       @media (max-width:640px){
+        .stat{ min-width:0; }
         table.sens{ font-size:12px; table-layout:fixed; }
         table.sens th, table.sens td{ padding:9px 2px; }
         table.sens thead th:first-child{ font-size:9.5px; letter-spacing:0; width:19%; }
         table.sens td small{ font-size:9.5px; }
       }
       @media (max-width:520px){
-        .stats{ grid-template-columns:1fr 1fr; }
-        .stat .v{ font-size:24px; }
+        .stats{ grid-template-columns:auto auto; justify-content:center; }
+        .stat{ padding:10px 12px 8px; min-width:0; max-width:100%; }
+        .stat .v{ font-size:20px; }
         .topbar nav{ margin:6px auto 0; }
       }
     </style>
@@ -521,15 +485,6 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
         <div class="k">${props.k}</div>
         <div class="v">${shown}</div>
         <div class="d">${props.d}</div>
-      </div>`;
-    }
-
-    function HeroMeter(props){
-      return html`<div class=${"meter-chip" + (props.hit > 0 ? " dead" : "")}>
-        <div class="k"><span>FALSIFIERS TRIGGERED</span><b>${props.hit} / 6</b></div>
-        <div class="meter-track">
-          ${[0,1,2,3,4,5].map(i => html`<div key=${i} class=${"meter-seg" + (i < props.hit ? " hit" : "")}></div>`)}
-        </div>
       </div>`;
     }
 
@@ -1052,22 +1007,6 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
       </div>`;
     }
 
-    /* ============ falsifier summary — the interactive board lives in the terminal ============ */
-    function FalsifierSummary(){
-      return html`<div class="falsum" id="falsifiers">
-        <div class="fs-count">
-          <div class="v">0<small> / 6</small></div>
-          <div class="k">FALSIFIERS TRIGGERED</div>
-        </div>
-        <div class="fs-body">
-          <h3>The invalidation dashboard</h3>
-          <p>None of the six pre-registered falsifiers had triggered at the 13 Nov 2026 snapshot. The full board — all six falsifier cards and the kill-switch sliders — runs in the terminal; the static readings are also tabulated as Table 5 in Chapter 6.</p>
-          <div class="fs-track" aria-hidden="true">${[0,1,2,3,4,5].map(i => html`<i key=${i}></i>`)}</div>
-        </div>
-        <a class="btn-outline fs-link" href="https://0xrard.github.io/Near-Hackathon/terminal.html" target="_blank" rel="noopener noreferrer">Kill the thesis</a>
-      </div>`;
-    }
-
     /* ============ Chapter 1 — Summary ============ */
     function ChSummary(){
       return html`<section class="chapter">
@@ -1098,7 +1037,6 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
           </ul>
           <p class="dfoot">The thesis is a living document: it was re-run on 13 Nov and <b>the verdict did not change</b>.</p>
         </div>
-        ${html`<${FalsifierSummary} />`}
       </section>`;
     }
 
@@ -1554,16 +1492,11 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
 
         <div class="wrap">
           <header class="hero">
-            <p class="hero-tag">NEAR PROTOCOL · INVESTMENT THESIS · INV TRACK</p>
-            <h1>Priced for<br /><span class="teal">delivery</span><span class="thin">.</span></h1>
-            <p class="hero-sub">Intents is real and growing fast — routed volume and fee revenue are rising sharply year over year. But the market already pays for the finished version: fees cover only a small share of emissions, and break-even needs several times today's volume. This dashboard puts that claim on trial — full chapters, all nine figures, every table.</p>
+            <h1>Priced for<br /><span class="teal">delivery</span></h1>
+            <p class="hero-sub">Intents is real and growing fast, routed volume and fee revenue are rising sharply year over year. But the market already pays for the finished version: fees cover only a small share of emissions, and break-even needs several times today's volume. This dashboard puts that claim on trial, full chapters, all nine figures, every table.</p>
             <div class="hero-actions">
               <button class="btn-solid" onClick=${toContent}>Read the thesis</button>
               <a class="btn-outline" href="https://0xrard.github.io/Near-Hackathon/terminal.html" target="_blank" rel="noopener noreferrer">Kill the thesis</a>
-            </div>
-            <div class="verdict-row">
-              <div class="verdict-chip"><span class="k">VERDICT</span><span class="v">PRICED FOR DELIVERY</span></div>
-              ${html`<${HeroMeter} hit=${0} />`}
             </div>
             <div class="stats">
               ${html`<${Stat} k="NEAR PRICE" raw=${disp.price} format=${v => "$" + fmt(v,2)} d=${live ? "Live · public price feeds" : "Snapshot, 13 Nov 2026"} />`}
