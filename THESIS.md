@@ -49,6 +49,19 @@ One fact about the claim's age: by its own kill lines, the thesis only became st
 **Result: not supported — the falsifier pattern is what the data shows.**
 Correlation of Intents volume vs on-chain activity over ~364 common days (`model_outputs.json`, `B_additive`). On daily changes (primary test: volume growth vs activity growth) active accounts r = +0.03 and transaction count r = +0.20 — weak, so day-to-day Intents growth neither tracks nor opposes on-chain activity. On daily levels the correlations are r = −0.19 and −0.10 (`correlations_levels`), but those mostly reflect two opposite trends, not a day-to-day relationship, so they are descriptive only. The decisive evidence is the divergence of the trends: daily active signers fell 69.7% year over year (G1) while Intents volume stayed high (cumulative $37.78B, 30-day average $126.58M/day). On the evidence in this repo, sub-hypothesis B fails as stated. The Intents contracts are heavily used on-chain (G3: `intents.near` is the #2 contract by function calls), so Intents is real usage of NEAR — but it has not held on-chain activity up. The thesis must be read with that failure in mind; it is the main reason for the verdict in §6.
 
+**The decoupling, as one number.** Divide monthly Intents volume by monthly L1 transaction count (G2) and the failed sub-hypothesis becomes a single series — Intents dollars settled per NEAR transaction:
+
+| Month | $ settled per L1 tx |
+|---|---|
+| Dec 2025 | $17 |
+| Mar 2026 | $19 |
+| Apr 2026 | $67 |
+| Jun 2026 | $96 |
+| Sep 2026 | $200 |
+| Oct 2026 | $176 |
+
+Ten months, a 10.4× rise (Dec 2025 → Oct 2026, first and last full months of the overlap). The step-change is April 2026 — the month L1 transactions fell off the cliff (§5) and Intents volume did not. The settlement layer's growth is now decoupled from the chain's own usage, in one ratio: that is precisely the condition the verdict prices. Provenance: G2 is a BigQuery series, quoted not re-run (Appendix A.5); November 2026 is excluded because the two series' windows do not align (G2 ends 11 Nov, the volume series 13 Nov).
+
 ## 4. Evidence for
 
 Each item cites its chart and query. All figures as of 14 November 2026 unless labelled otherwise. BigQuery series (G1–G3, G6) were last pulled 11 November 2026 and are quoted, not re-run — see Appendix A.5.
@@ -63,6 +76,8 @@ Each item cites its chart and query. All figures as of 14 November 2026 unless l
 - **Fig1: price history.** Last close $3.51 (13 Nov 2026); MA50 $4.62 / MA200 $2.66; plus the snapshot point for 14 Nov 2026 at $3.33 — the price has fallen below both the 13 Nov close and the 50-day average.
 - **Fig5: TVL and stablecoins (14 Nov 2026, DefiLlama).** NEAR TVL $159.15M; stablecoins $132.03M, i.e. 83.0% of TVL. Stablecoin dominance of TVL is consistent with NEAR being used as a settlement rail rather than as a DeFi destination.
 - **Fig7: the deflationary threshold.** Marker at V\* $573M/day (2.5% issuance) and $367M/day (1.6% issuance); new issuance runs at 89.82K NEAR/day at 2.5% and 57.49K NEAR/day at 1.6% (see §6).
+
+- **HSP-029, audited against the primary record** (gov.near.org proposal page, read 14 Nov 2026). The governance claim behind the scarcity pillar was checked against the proposal itself, not press coverage. Status: **Succeeded**, Decision track, Super Majority required; author Sal Ternullo (SVRN). The change is a smooth 24-month per-epoch ramp — cap(t) = 2.5% − 0.9% × min(t, 24)/24, ≈3.75 bp per month — beginning one full quarter after ratification, and avoiding 11.8M NEAR of issuance over two years. The ballot (closed 2 Nov 2026, 16:48 UTC) is reported, not primary-verified — the ballot page is not text-retrievable, so it stays **Tier 2**: ≈3.29M veNEAR in favour, 1,071 abstaining, effectively none against (≈99.97% support, ≈62% turnout, 36 voting accounts). Two qualifiers stay attached wherever this is cited: the proposal **cannot take effect on a House of Stake vote alone** — validator adoption through the standard upgrade process is what makes it binding — and at this submission's deadline the Security Council **veto window is still open** (it closes 16 Nov 2026, 16:48 UTC). This changes no wording in the thesis — HSP-029 is approved, not in force (see F3) — it raises the evidence tier under the claim from reported to verified.
 - **Fig8: peer multiples (14 Nov 2026).** P/F (market cap / annualised gross fees): Tron 101.4×, ARB 151.6×, SOL 229.8×, BNB 575.2×, AVAX 807.8×, ETH 979.3×, median 402×; NEAR is the cheapest on gross fees at **62.3× gross / 145.3× net**. Cheap on fees is not the same as cheap on value — §6 explains why the net multiple and the failed sub-hypothesis B matter more.
 - **Pillar 3: the $3.8M exploit case** — detected, auto-paused, funds returned within 36 hours; see postmortem. A system that is attacked and recovers with funds returned is evidence of resilience — but the exploit itself is a real risk, listed in §5.
 
@@ -72,10 +87,10 @@ Each item cites its chart and query. All figures as of 14 November 2026 unless l
 
 G1/G2 now confirm the reported figures, so they are stated here as measured, not merely reported:
 
-- **Confirmed: NEAR lost about two-thirds of its daily active users in a year, and transactions fell by about four-fifths.** Daily active signers: 257,073 on 12 Nov 2025 → 77,831 on 11 Nov 2026, **−69.7%** on endpoints; November monthly averages 238,347 (2025) → 81,139 (2026, 11 days), −66%. Transactions: first 7 days average 4,328,307/day → last 7 days 802,188/day, **−81.5%**. There is also a cliff inside the year: March 2026 averaged 3,479,269 tx/day, April 2026 averaged 946,610/day. This is precisely the falsifier pattern of sub-hypothesis B (§3): activity fell while Intents volume held up. (The day-to-day correlation test is weak rather than negative — see §3.)
-- **Reported:** "Buying NEAR for its usage does not buy a share of NEAR's users. It buys a fee on swaps between other chains." (tradingstrategies.work, independent coverage.) The fee-capture mechanism is real but partial: the repo model now uses the **measured** 60-day figures (15 Sep–13 Nov 2026, falsifier F2): gross take 16.3 bps and capture 31.5% (net $4.43M of gross $14.07M on $8.63B volume), i.e. a net take of **5.13 bps**. PDF v3's October figures are higher — capture 39.2% (net $2,502,470 / gross $6,388,076) and net take 6.28 bps — because they cover October alone; they are different windows of the same measurement, not a conflict (see §6). Over the last 30 days the capture is 31.0% (gross take 15.36 bps, net take 4.76 bps).
-- **Reported:** NEAR's own on-chain fees fell from $5.18M to $1.27M over the reported period. Not recomputed in this repo (G6 measures success rate and gas, not USD fees); cited as reported, not as measured.
-- **Buybacks offset only a fraction of issuance.** Emissions offset: September 25.2%, October 18.4%, November month-to-date 18.8% (14 Nov 2026 scrape of revenue.near.org, the source of Figure 6 and `data/stats.json`). It moves as the month accrues. Bought tokens are held, not burned — "buyback offsets issuance" is not the same as "supply shrinks". The model threshold (§6) makes the same point in volume terms.
+- **Confirmed: NEAR lost about two-thirds of its daily active users in a year, and transactions fell by about four-fifths.** Daily active signers: 257,073 on 12 Nov 2025 → 77,831 on 11 Nov 2026, **−69.7%** on endpoints; November monthly averages 238,347 (2025) → 81,139 (2026, 11 days), −66%. Transactions: first 7 days average 4,328,307/day → last 7 days 802,188/day, **−81.5%**. There is also a cliff inside the year: March 2026 averaged 3,479,269 tx/day, April 2026 averaged 946,610/day. This is precisely the falsifier pattern of sub-hypothesis B (§3): activity fell while Intents volume held up. (The day-to-day correlation test is weak rather than negative — see §3.) **Disposition: conceded.** This is the measurement that failed sub-hypothesis B; no rebuttal is offered.
+- **Reported:** "Buying NEAR for its usage does not buy a share of NEAR's users. It buys a fee on swaps between other chains." (tradingstrategies.work, independent coverage.) The fee-capture mechanism is real but partial: the repo model now uses the **measured** 60-day figures (15 Sep–13 Nov 2026, falsifier F2): gross take 16.3 bps and capture 31.5% (net $4.43M of gross $14.07M on $8.63B volume), i.e. a net take of **5.13 bps**. PDF v3's October figures are higher — capture 39.2% (net $2,502,470 / gross $6,388,076) and net take 6.28 bps — because they cover October alone; they are different windows of the same measurement, not a conflict (see §6). Over the last 30 days the capture is 31.0% (gross take 15.36 bps, net take 4.76 bps). **Disposition: conceded as mechanism, rejected as refutation.** The thesis never claimed NEAR's users; it claims the fee. The fee is measured (F2) — its size, not its existence, is what §6 prices.
+- **Reported:** NEAR's own on-chain fees fell from $5.18M to $1.27M over the reported period. Not recomputed in this repo (G6 measures success rate and gas, not USD fees); cited as reported, not as measured. **Disposition: conceded as reported.** Not measured in this repo (§8); consistent with the G1/G2 collapse conceded above.
+- **Buybacks offset only a fraction of issuance.** Emissions offset: September 25.2%, October 18.4%, November month-to-date 18.8% (14 Nov 2026 scrape of revenue.near.org, the source of Figure 6 and `data/stats.json`). It moves as the month accrues. Bought tokens are held, not burned — "buyback offsets issuance" is not the same as "supply shrinks". The model threshold (§6) makes the same point in volume terms. **Disposition: conceded.** The model in §6 is built on exactly this: offset is partial until V*, and held is not burned.
 - **Buyback wallet, full history — corrected.** A full-history Nearblocks pull (3,408 receipts, 18 Mar–14 Nov 2026) replaces the earlier incomplete reading: inflows total **2,293,097 NEAR** (3,391 inbound receipts, 3,360 of them from `intents.near`); outflow is exactly **3 transactions totalling 12,025 NEAR** — 20 NEAR on 20 Mar 2026, 5 NEAR on 20 Mar 2026, and the only material outflow, 12,000 NEAR on 10 Jul 2026; balance **2,281,071.57 NEAR**. The widely quoted "1.74M NEAR" is the revenue dashboard's attribution of buybacks, **not** the on-chain total — do not cite it as the wallet balance. In the trailing 30 days (falsifier F4, §7) outflow is 0.00 NEAR.
 
 **Buyback wallet staircase** — cumulative balance of `buybacks.multisignature.near` at each month-end, from the full-history NearBlocks pull (3,408 receipts, 18 Mar–14 Nov 2026), checked 14 Nov 2026:
@@ -92,9 +107,19 @@ G1/G2 now confirm the reported figures, so they are stated here as measured, not
 | Oct 2026 | 2,144,977 |
 | 14 Nov 2026 | 2,281,072 |
 
-Inflows of 2,293,097 NEAR minus the three outflows totalling 12,025 NEAR reconcile to the 2,281,072 NEAR balance (2,281,071.57 NEAR at fetch time).
+Inflows of 2,293,097 NEAR minus the three outflows totalling 12,025 NEAR reconcile to the 2,281,072 NEAR balance (2,281,071.57 NEAR at fetch time). **Disposition: measured, and it cuts both ways** — the sink is real (0.5% lifetime outflow), and the figure the dashboards quote (1.74M NEAR) is not the wallet's balance.
 
-- Structural risks: Rhea concentrates NEAR DEX volume (a single point of failure); Across, UniswapX and 1inch Fusion compete with Intents; solver/attestor centralisation is unverified; one recovered exploit is not a guarantee against the next.
+**The absorption clock — scenario arithmetic, not a forecast.** From the census base (2,281,071.57 NEAR on 14 Nov 2026 = 0.174% of supply), at constant monthly inflow rates drawn from the census itself — bear 150K NEAR/month (about half the recent pace), base 290K (the trailing 30-day pace; F4 read 287,393.71 NEAR inbound in its window), bull 535K (the trailing-90-day pace, September's spike included) — and net of the wallet's historical outflow share (0.52% of inflows), the balance crosses:
+
+| Threshold | Bear | Base | Bull |
+|---|---|---|---|
+| 0.25% of supply (3,278,553 NEAR) | ~Jun 2027 | ~Feb 2027 | ~Jan 2027 |
+| 0.50% of supply (6,557,106 NEAR) | ~Apr 2029 | ~Feb 2028 | ~Jul 2027 |
+| 1.00% of supply (13,114,212 NEAR) | ~Dec 2032 | ~Jan 2030 | ~Jul 2028 |
+
+Supply is held constant in this arithmetic; issuance grows it ≈2.5%/yr, which pushes every date later — read these as earliest dates. And the standing qualifier from §5 applies to every cell: the balance is **held, not burned**; absorption takes NEAR off the market only for as long as the outflow pattern holds, which is exactly what F4 watches.
+
+- Structural risks: Rhea concentrates NEAR DEX volume (a single point of failure); Across, UniswapX and 1inch Fusion compete with Intents; solver/attestor centralisation is unverified; one recovered exploit is not a guarantee against the next. **Disposition: open.** Solver/attestor centralisation is carried in §8 as not computed; the rest are named exposures, not measured quantities, and are priced into the verdict only as uncertainty.
 
 **Result of the check:** confirmed by G1/G2 as measured above. The counter-evidence is not a footnote to the thesis; it is the reason for the verdict in §6.
 
@@ -128,6 +153,18 @@ One measurement this report adds is the threshold tracked through time. V* is us
 | Sep | 160.1 | 3.19 | 550 | 3.4x |
 | Oct | 128.6 | 4.90 | 844 | 6.6x |
 | Nov | 133.6 | 3.80 | 654 | 4.9x |
+
+### The threshold, projected forward: the HSP-029 glidepath
+
+§6's companion section tracked V* backwards; the ramp lets it be tracked forwards. If HSP-029 activates on the earliest schedule — ratification after the veto window closes (16 Nov 2026), one full quarter of grace, activation **Feb 2027** — the issuance cap glides 2.5% → 1.6% over 24 months (cap(t) = 2.5% − 0.9% × min(t, 24)/24), and V* falls with it. With price, supply, take (16 bps) and capture (32.6%) frozen at the 14 Nov snapshot, the volume the plan must deliver falls on this schedule:
+
+| Date | Issuance cap | V* ($M/day) | × current volume ($126.58M/day) | Required growth from today |
+|---|---|---|---|---|
+| 31 Dec 2027 | 2.09% | 479 | 3.78× | 225%/yr (10.3%/mo) |
+| 31 Dec 2028 | 1.64% | 376 | 2.97× | 67%/yr (4.3%/mo) |
+| 1 Feb 2029 (ramp complete) | 1.60% | 367 | 2.90× | 62%/yr (4.1%/mo) |
+
+Read against the model's own scenarios, the ramp does not rescue the timeline: even the bull case (30%/yr sustained) reaches only ≈$226M/day by Feb 2029, below the $367M threshold — crossing during the ramp requires two to seven times the bull growth rate. After the ramp completes, the requirement settles at the standing §6 figure, 2.9× current volume. Sensitivity: if activation slips six months (Aug 2027), V* stands at $531M on 31 Dec 2027 and $427M on 31 Dec 2028, and the ramp completes Aug 2029. The activation date is an assumption, stated here as one; every other input is the frozen snapshot, and a rising price raises V* (§6's backward section shows the mechanism), so these are earliest-date readings.
 
 ### Verdict: priced for delivery
 
@@ -190,6 +227,22 @@ Monthly mean daily volume ($M): Dec-24 0.1, Jan-25 0.2, Feb 0.5, Mar 0.8, Apr 1.
 | 2026-11 (MTD) | 0.75 | 31.3% | 4.71 | ok |
 
 **Takeaway:** F2 would have been dead for 9 straight months (Aug 2025–Apr 2026), crossed into life in **May 2026**, and relapsed once in Jul 2026 on the take leg alone (2.97 bps vs the 3 bps line — a near-miss worth naming). The monetisation pillar is five months old, not a long-run fact.
+
+### The falsifiers, forward: checkpoints and the decision table
+
+The board will be re-read, with the same checker and the same lines, on four dates: **16 Nov 2026** (the HSP-029 veto window closes, 16:48 UTC — F3's first gate), **31 Dec 2026**, **31 Mar 2027**, and **30 Jun 2027** (F3's decidable date). No point forecasts are added here: the model's scenarios (§6) are the forecasts. What is fixed in advance instead is what each future print *does to the verdict* — including the states short of death, defined now so they cannot be invented later:
+
+| Print at a checkpoint | Effect on the verdict |
+|---|---|
+| F1 30-day average between $75M and $100M/day (above the line, margin under 1.33×) | Verdict holds — **margin thin**, stated as such |
+| F2 capture between 15% and 20%, or net take between 3 and 4 bps | Verdict holds — **margin thin**, stated as such |
+| A single F4 outflow between 1% and 5% of the balance in 30 days | **Sink assumption under review**; verdict holds pending the next checkpoint |
+| Two watch states active at the same checkpoint | One downgrade (the standing rule) |
+| Any falsifier triggered | The standing rule applies: one triggered downgrades the verdict, two concurrent end the thesis — and the pre-written concession (THESIS-OBITUARY.md) is published unedited |
+
+The watch bands are new commitments, written 14 Nov 2026; they are not part of the pre-registered falsifiers and are not presented as such.
+
+The concession text for the day any of these lines fires is already written and committed in this repo: THESIS-OBITUARY.md (14 Nov 2026).
 
 - Intents volume **only follows** price (no lead at any lag in the lead/lag test), i.e. volume is a consequence of speculation, not of usage. **Status: not established either way on levels; on changes there is no correlation (repo test r = −0.098 best lag, placebo p = 0.592; PDF v3 r ≈ 0.01). The lead leg is unproven, which already weakens the claim.**
 - Sub-hypothesis A fails: >80% of volume is one-off addresses. **Status: uncomputed (no JWT).**

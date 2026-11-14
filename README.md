@@ -9,7 +9,7 @@ An investment thesis on NEAR, presented as two static pages: a full thesis dashb
 - **Latest run (14 Nov 2026): 0 of 6 falsifiers triggered** — 4 not
   triggered, 1 not yet decidable (F3), 1 cannot check (F5). Full results
   in [`data/falsifiers.json`](data/falsifiers.json) (generated
-  2026-11-14 11:42 UTC, data as of 2026-11-13).
+  2026-11-14 11:42 UTC, data as of 2026-11-13) — the forward checkpoints and the decision table for future prints are in §7 of THESIS.md.
 - **Read it live:** [the dashboard](https://0xrard.github.io/Near-Hackathon/)
   — the full argument, the scenario and valuation work, and the falsifier
   board, on the frozen 14 Nov 2026 snapshot, with a live re-check shown
@@ -26,6 +26,9 @@ An investment thesis on NEAR, presented as two static pages: a full thesis dashb
 - **The falsifiers were fixed in advance** — defined in the author's
   earlier public working repo before this snapshot existed; see
   "Pre-registration" below.
+- **The concession is pre-written:** [`THESIS-OBITUARY.md`](THESIS-OBITUARY.md)
+  — the exact text that gets published, unedited except for the date and
+  the falsifier's name, on the day any falsifier fires.
 
 ## Run it
 
@@ -212,3 +215,7 @@ Why F3–F6 do not update live:
 - **One snapshot, one day.** Capture, take and the offset ratio are
   window readings (30/60 days); a different window gives a different
   number, and the report's own monthly series show how much they move.
+
+## AI assistance (Q-005 disclosure)
+
+This submission was built with AI coding agents, as the hackathon rules allow (HACKATHON.md Q-005). The thesis, the model design, the falsifier thresholds, the data interpretation and every decision are Nino's. Muse assembled the README and dashboard code, generated the checker and figure scripts from his specifications, and verified the numbers against the repo; a second AI agent independently verified the repo against the same criteria. Nino re-ran the falsifier checker himself from a clean clone (exit 0, all six readings identical). Pre-hackathon baseline: the falsifiers were first written in his public working repo near-investment-thesis (see Pre-registration above); no third-party code is presented as his own.

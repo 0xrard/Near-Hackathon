@@ -304,6 +304,10 @@
       table.dtable td.st.trig{ color:var(--red); }
       table.dtable td.st.ok{ color:var(--green); }
       .wallet{ font-family:var(--mono); font-size:12.5px; color:var(--teal); word-break:break-all; }
+      .dtag{ display:inline-block; font-family:var(--mono); font-size:11px; letter-spacing:.06em; color:var(--teal);
+        border:1px solid rgba(0,220,176,.4); border-radius:999px; padding:2px 9px; margin-left:6px; white-space:nowrap; }
+      .dtag.warn{ color:var(--amber); border-color:rgba(245,181,68,.45); }
+      .ckpt{ font-family:var(--mono); font-size:13px; color:var(--ink); line-height:1.7; }
 
       /* kv table */
       table.kv{ width:100%; border-collapse:collapse; font-size:14.5px; }
@@ -1292,6 +1296,20 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
           <p>An evidence-first report must lead with the weakest link, and here it is the NEAR layer-1 itself. Daily transactions averaged 4.26 million over 1–10 November 2025; over the same window in 2026 they averaged 706 thousand — an 83% decline. Daily active accounts fell 67%, from 249 thousand to 81 thousand. The December 2024 peak of 8.25 million transactions per day is far behind. Layer-1 fees are immaterial at $4.6 thousand per day ($1.66 million annualized), so the base chain's own fee market cannot fund anything. The honest reading: the 2024–25 transaction boom was driven by short-lived gaming and social applications; that activity ended, and NEAR's economic center of gravity moved to the Intents layer, which settles cross-chain value that mostly does not originate as NEAR L1 transactions. This matters for the thesis in two ways. First, the classic ‘broad on-chain usage’ argument for NEAR has already failed — that falsifier has fired, and what remains is a narrower and cleaner value-capture story. Second, the fee base is now one product wide: thirteen months of fee history, concentrated in Intents, with the owned front-end routing roughly a quarter of Q3 volume by third-party accounting. That concentration cuts both ways — it makes capture efficient (the front-end captures 100% of its fees) and it makes the revenue engine fragile if product mix or routing behavior shifts. Figure 4 shows the L1 contraction that any NEAR thesis must now absorb.</p>
         </div>
         ${html`<${Fig4} />`}
+        <div class="tblwrap">
+          <table class="dtable">
+            <thead><tr><th>Month</th><th>Intents $ settled per L1 transaction</th></tr></thead>
+            <tbody>
+              <tr><td>Dec 2025</td><td class="n">$17</td></tr>
+              <tr><td>Mar 2026</td><td class="n">$19</td></tr>
+              <tr><td>Apr 2026</td><td class="n">$67</td></tr>
+              <tr><td>Jun 2026</td><td class="n">$96</td></tr>
+              <tr><td>Sep 2026</td><td class="n">$200</td></tr>
+              <tr><td>Oct 2026</td><td class="n">$176</td></tr>
+            </tbody>
+          </table>
+          <p class="tbl-cap"><b>Decoupling, in one ratio:</b> Intents dollars settled per L1 transaction rose <b>10.4× over ten months</b> (Dec 2025 → Oct 2026, the first and last full months of the overlap), with the step-change in <b>April 2026</b> — the month L1 transactions fell off the cliff and Intents volume did not. Provenance: G2 is a BigQuery series, quoted not re-run. November 2026 is excluded because the two series’ windows do not align (G2 ends 11 Nov; the volume series ends 13 Nov).</p>
+        </div>
         <div class="prose after-fig">
           <h3>TVL and stablecoins: a shrinking DeFi footprint</h3>
           <p>NEAR is not a DeFi destination chain, and the data says so plainly. Chain TVL is $159 million, down 12% year-over-year; stablecoin circulating on NEAR is $132 million, and now equals 83% of all TVL. For scale: NEAR settles more Intents volume every 36 hours than the entire value locked in its DeFi ecosystem. This is consistent with the clearing-house view of NEAR — value passes through and is monetized as fees rather than parked as TVL — but it removes another classic leg of L1 theses (the ‘TVL follows activity’ multiplier). Any bull case that leans on DeFi growth on NEAR L1 is contradicted by the current data; the bull case that survives leans on volume, capture, and supply policy. Figure 5 shows the flat-to-down trajectory.</p>
@@ -1314,6 +1332,19 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
         <div class="prose">
           <h3>Supply and the inflation path</h3>
           <p>Total supply is 1,311.4 million NEAR with no material unlock overhang, so supply dynamics are governed by issuance policy and fee sinks, not vesting cliffs. Today the protocol mints at a maximum rate of 2.5% per year — the RPC protocol configuration reports max_inflation_rate = 1/40 at protocol version 88, equal to 89,822 NEAR per day by formula; the revenue dashboard’s on-chain accounting counts 87,604 NEAR per day actually emitted. Per the passed-but-not-yet-live governance proposal HSP-029, the House of Stake voted on 2 November 2026 to reduce the maximum to 1.6%, phased in over 24 months, with roughly 90% of issuance to stakers and 10% to the treasury — about 11.8 million NEAR of issuance avoided in the first two years and daily issuance falling from roughly 89.5 thousand to 57.3 thousand NEAR at full implementation. Two precision points matter for an evidence-based thesis: the RPC still reports 2.5% as of 14 November 2026, so the cut is a committed expectation rather than a present on-chain fact; and the proposal’s issuance numbers match our own RPC-derived arithmetic, which is exactly the kind of cross-check this report requires.</p>
+        </div>
+        <div class="tblwrap">
+          <table class="kv">
+            <tbody>
+              <tr><td>HSP-029 · STATUS</td><td><b>Succeeded</b> — Decision track, Super Majority required. <b>Approved, not in force</b> (see F3).</td></tr>
+              <tr><td>AUTHOR</td><td>Sal Ternullo (SVRN)</td></tr>
+              <tr><td>RAMP</td><td><span class="mono">cap(t) = 2.5% − 0.9% × min(t, 24)/24</span> — ≈3.75 bp per month, beginning one full quarter after ratification, avoiding ≈11.8M NEAR of issuance over two years.</td></tr>
+              <tr><td>BALLOT · TIER 2</td><td>Closed <b>2 Nov 2026, 16:48 UTC</b>. Reported, not primary-verified, so the tally stays <b>Tier 2</b>: ≈3.29M veNEAR in favour, 1,071 abstaining, effectively none against — ≈99.97% support, ≈62% turnout, 36 voting accounts.</td></tr>
+            </tbody>
+          </table>
+          <p class="tbl-cap"><b>HSP-029, audited.</b> Two qualifiers attach to the vote. The proposal <b>cannot take effect on a House of Stake vote alone</b> — validator adoption through the standard upgrade process is what makes it binding. And at this submission’s deadline the <b>Security Council veto window is still open</b>; it closes <b>16 Nov 2026, 16:48 UTC</b>.</p>
+        </div>
+        <div class="prose after-tbl">
           <h3>Where the fees go: capture plumbing and the buyback wallet</h3>
           <p>All Intents fees are denominated in NEAR. Gross fees are split among solvers, integrators, and the protocol; the retained net revenue flows to three auditable on-chain wallets. The dashboard’s all-time breakdown: fefundsadmin.sputnik-dao.near (front-end fees; 2.00 million NEAR, 46.5%), buybacks.multisignature.near (1.74 million NEAR, 40.5%), and 1csfundsadmin.sputnik-dao.near (B2B; 0.56 million NEAR, 12.9%). The buyback wallet was created on 18 March 2026 (its first on-chain transaction) and holds a balance of 2,280,770 NEAR (exactly 2,280,770.08 NEAR) — about $7.6 million — verified directly against the RPC. On-chain, the wallet has received 2,293,097 NEAR across 3,391 inbound receipts, 3,360 of them from intents.near; the protocol’s revenue dashboard attributes 1.74 million NEAR of that total to captured Intents revenue. Flow history from NearBlocks shows the sink behaving as designed: over 15 October to 14 November 2026 the wallet recorded 768 receipts and sent out exactly zero — an outflow of 0.00 NEAR, 0.0000% of its balance. Across its entire history — 3,408 receipts from 18 March 2026 to 14 November 2026, read receipt-by-receipt from NearBlocks — the wallet has made exactly three outflows, totalling 12,025 NEAR against 2,293,097 NEAR of cumulative inflows (0.5%): 20 NEAR and 5 NEAR on 20 March 2026, in its first week, and one transfer of 12,000 NEAR on 10 July 2026. Inflows minus outflows reconcile exactly to the balance.</p>
           <p>The protocol’s revenue is a sink, not a fund: across the wallet’s whole life there are three outflows and no pattern of spending — no recurring payments, no grants paid from it, no spending commitments attached to it. The single material exception, the 12,000 NEAR transfer of 10 July 2026, is itemised above rather than averaged away.</p>
@@ -1334,6 +1365,17 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
             </tbody>
           </table>
           <p class="tbl-cap"><b>Buyback wallet staircase:</b> cumulative balance of buybacks.multisignature.near at each month-end, from the full-history NearBlocks pull (3,408 receipts, 18 Mar – 14 Nov 2026) — checked 14 Nov 2026. Inflows of 2,293,097 NEAR minus the three outflows totalling 12,025 NEAR reconcile to the 2,281,072 NEAR balance (2,281,071.57 NEAR at fetch time).</p>
+        </div>
+        <div class="tblwrap">
+          <table class="dtable">
+            <thead><tr><th>Absorption threshold</th><th>Bear</th><th>Base</th><th>Bull</th></tr></thead>
+            <tbody>
+              <tr><td>0.25% of supply (3,278,553 NEAR)</td><td class="n">~Jun 2027</td><td class="n">~Feb 2027</td><td class="n">~Jan 2027</td></tr>
+              <tr><td>0.50% of supply (6,557,106 NEAR)</td><td class="n">~Apr 2029</td><td class="n">~Feb 2028</td><td class="n">~Jul 2027</td></tr>
+              <tr><td>1.00% of supply (13,114,212 NEAR)</td><td class="n">~Dec 2032</td><td class="n">~Jan 2030</td><td class="n">~Jul 2028</td></tr>
+            </tbody>
+          </table>
+          <p class="tbl-cap"><b>The absorption clock — scenario arithmetic, not a forecast:</b> when the buyback balance crosses each share of total supply, on each scenario’s accumulation path. Two qualifiers attach. Supply is held constant in this arithmetic; issuance grows it ≈2.5%/yr, which pushes every date later, so read these as <b>earliest dates</b>. And the balance is <b>held, not burned</b> — absorption takes NEAR off the market only for as long as the outflow pattern holds, which is exactly what F4 watches.</p>
         </div>
         <div class="tblwrap">
           <table class="dtable">
@@ -1398,6 +1440,16 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
         </div>
         <div class="prose">
           <p>The inflation cut is not a free lunch for stakers, and the report should not pretend otherwise: gross staking yield falls from about 5.1% to about 3.2% as the cut phases in. For a staker, the exchange is roughly neutral in NEAR terms (yield falls in proportion to dilution) and mildly positive in float terms; for a non-staker it is unambiguously positive, since the dilution they absorb without staking drops by about 36%. A new, small demand sink is also worth noting: staking NEAR to pay for confidential AI inference had attracted more than 750 thousand NEAR by Q3 2026 — a non-DeFi yield consumer that did not exist a year ago (cited, not re-runnable).</p>
+          <h3>Evidence against — dispositions</h3>
+          <p>Each counter-evidence item carried against this chapter’s claims, with its disposition stated rather than argued around:</p>
+          <ol class="claims">
+            <li><b>Activity collapse.</b> This is the measurement that failed sub-hypothesis B; no rebuttal is offered.<span class="dtag warn">CONCEDED</span></li>
+            <li><b>The “fee on swaps between other chains” quote.</b> The thesis never claimed NEAR’s users; it claims the fee. The fee is measured — F2 — and its size, not its existence, is what §6 prices.<span class="dtag">CONCEDED AS MECHANISM · REJECTED AS REFUTATION</span></li>
+            <li><b>NEAR’s own on-chain fees fell, reported.</b> Not measured in this repo; consistent with the G1/G2 collapse conceded above.<span class="dtag warn">CONCEDED AS REPORTED</span></li>
+            <li><b>Buybacks offset only a fraction, held not burned.</b> The model in §6 is built on exactly this: offset is partial until V*, and held is not burned.<span class="dtag warn">CONCEDED</span></li>
+            <li><b>The census.</b> The sink is real at 0.5% lifetime outflow, and the figure the dashboards quote, 1.74M NEAR, is not the wallet’s balance.<span class="dtag">MEASURED — CUTS BOTH WAYS</span></li>
+            <li><b>Structural risks.</b> Solver/attestor centralisation is carried as not computed; the rest are named exposures, not measured quantities, priced into the verdict only as uncertainty.<span class="dtag">OPEN</span></li>
+          </ol>
         </div>
         <div class="ch-next">
           <button class="btn-next" onClick=${props.onNext}>Next ></button>
@@ -1476,6 +1528,21 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
           <h3>V* sensitivity grid (frozen)</h3>
         </div>
         ${html`<${SensitivityGrid} onPick=${pick} />`}
+        <div class="prose after-block">
+          <h3>The goalpost, projected: V* along the HSP-029 ramp</h3>
+          <p>The threshold measured through time in Chapter 4 also moves forward: as the issuance cap ramps down, V* falls with it. The glidepath below holds every other input at the frozen snapshot; the activation date is an <b>assumption, stated as one</b>.</p>
+        </div>
+        <div class="tblwrap">
+          <table class="dtable">
+            <thead><tr><th>Date</th><th>Issuance cap</th><th>V*</th><th>× current volume</th><th>Required growth</th></tr></thead>
+            <tbody>
+              <tr><td>31 Dec 2027</td><td class="n">2.09%</td><td class="n">$479M/day</td><td class="n">3.78×</td><td class="n">225%/yr (10.3%/mo)</td></tr>
+              <tr><td>31 Dec 2028</td><td class="n">1.64%</td><td class="n">$376M/day</td><td class="n">2.97×</td><td class="n">67%/yr (4.3%/mo)</td></tr>
+              <tr><td>1 Feb 2029 (ramp complete)</td><td class="n">1.60%</td><td class="n">$367M/day</td><td class="n">2.90×</td><td class="n">62%/yr (4.1%/mo)</td></tr>
+            </tbody>
+          </table>
+          <p class="tbl-cap"><b>Glidepath:</b> V* as the HSP-029 cap ramps, and the volume growth required to reach it from today’s $126.58M/day. Even the bull case — 30%/yr sustained — reaches only ≈$226M/day by Feb 2029, below the $367M threshold; crossing during the ramp requires two to seven times the bull growth rate. Sensitivity: if activation slips six months to Aug 2027, V* stands at $531M on 31 Dec 2027 and $427M on 31 Dec 2028, and the ramp completes Aug 2029.</p>
+        </div>
         <div class="prose after-block">
           <h3>Does volume lead price? A lead-lag test</h3>
           <p>If the market trades NEAR on Intents fundamentals, volume should lead or at least move with price. It does not. Cross-correlating daily NEAR returns (Binance) with daily Intents volume growth (DefiLlama) across lags of −14 to +14 days over 527 days since June 2025 yields r = +0.01 at lag zero, with a maximum absolute correlation of just 0.07 at −4 days — statistically indistinguishable from noise. A placebo test on the repo's own lead-lag scan (lags −7 to +7 days, daily log changes, 1000 permutations, seed 20261113) confirms it: shuffling the price returns gives a mean max |r| of 0.105 — larger than the observed 0.099 — with p = 0.554, so the observed best lag is exactly what random shuffling produces. Figure 9 shows the correlogram. The interpretation cuts both ways. Bullish: volume growth is not yet priced tick-by-tick, so fundamental delivery can still surprise. Bearish: price is not tethered to the fundamental series, so delivery alone may not lift the price — the connection runs through regime shifts like the ETF launch and governance votes (visible in Figure 1’s event windows) rather than through daily flow data. For an evidence-based holder the practical conclusion is that the falsifier dashboard, not the price chart, is the tracking instrument.</p>
@@ -1557,6 +1624,24 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
         </div>
         <div class="prose after-tbl">
           <p>F2 would have been dead for <b>nine straight months</b> (Aug 2025 – Apr 2026), crossed into life in <b>May 2026</b>, and relapsed once in <b>Jul 2026</b> on the take leg alone — 2.97 bps against the 3 bps line, a near-miss worth naming. The monetisation pillar is five months old, not a long-run fact.</p>
+        </div>
+        <div class="prose after-tbl">
+          <h3>Checkpoints and watch bands: what happens between now and the decidable date</h3>
+          <p class="ckpt">16 Nov 2026 — the HSP-029 veto window closes, 16:48 UTC, F3’s first gate &nbsp;·&nbsp; 31 Dec 2026 &nbsp;·&nbsp; 31 Mar 2027 &nbsp;·&nbsp; 30 Jun 2027 — F3’s decidable date</p>
+          <p>The bands below are <b>watch states</b>, defined in advance so a thin margin is named as one at the checkpoint rather than argued about afterwards. They are <b>new commitments, written 14 Nov 2026</b>; they are not part of the pre-registered falsifiers and are not presented as such.</p>
+        </div>
+        <div class="tblwrap">
+          <table class="dtable">
+            <thead><tr><th>Watch state at a checkpoint</th><th>Reading</th><th>Decision</th></tr></thead>
+            <tbody>
+              <tr><td><b>F1</b> — 30-day average between $75M and $100M/day</td><td>Above the line; margin under 1.33×</td><td>Verdict holds — margin thin, stated as such</td></tr>
+              <tr><td><b>F2</b> — capture between 15% and 20%, or net take between 3 and 4 bps</td><td>Above the line; margin thin</td><td>Verdict holds — margin thin, stated as such</td></tr>
+              <tr><td><b>F4</b> — a single outflow between 1% and 5% of the balance in 30 days</td><td>Sink behaviour broken once, below the kill line</td><td>Sink assumption under review; verdict holds pending the next checkpoint</td></tr>
+              <tr><td><b>Two watch states</b> active at the same checkpoint</td><td>—</td><td>One downgrade (the standing rule)</td></tr>
+              <tr><td><b>Any falsifier triggered</b></td><td>Table 5 kill line crossed</td><td>The standing rule applies — one triggered downgrades the verdict, two concurrent end the thesis — and the pre-written concession (THESIS-OBITUARY.md) is published unedited</td></tr>
+            </tbody>
+          </table>
+          <p class="tbl-cap"><b>Checkpoint decision table.</b> Watch bands defined 14 Nov 2026; the pre-registered falsifiers in Table 5 are unchanged by them.</p>
         </div>
         <div class="prose">
           <p>Symmetrically, the thesis strengthens if: capture holds above 40% of gross for a quarter; the V* coverage ratio (current volume over V*) rises through 0.5 on a sustained basis; the staking ratio holds above 40% through the first year of the inflation cut; and confidential TVL re-accelerates after its October consolidation. None of these require narrative — they are one-line API checks, which is the point of the evidence standard.</p>
