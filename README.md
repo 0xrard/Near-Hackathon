@@ -1,4 +1,4 @@
-# NEAR Investment Thesis — Re-run Package v2 (14 Nov 2026 snapshot)
+# NEAR Investment Thesis —  (14 Nov 2026 snapshot)
 
 **Verdict: NEAR is priced for delivery.**
 
