@@ -300,6 +300,9 @@
       table.dtable tr.total td{ border-top:1px solid var(--line2); color:var(--ink); font-weight:600; }
       .tbl-cap{ font-size:13px; color:var(--ink3); margin-top:8px; }
       .tbl-cap b{ color:var(--ink2); }
+      table.dtable td.st{ font-family:var(--mono); white-space:nowrap; font-size:12.5px; letter-spacing:.04em; }
+      table.dtable td.st.trig{ color:var(--red); }
+      table.dtable td.st.ok{ color:var(--green); }
       .wallet{ font-family:var(--mono); font-size:12.5px; color:var(--teal); word-break:break-all; }
 
       /* kv table */
@@ -1171,6 +1174,26 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
       </section>`;
     }
 
+    /* ============ Backtest figure — F1 margin history (Chapter 6) ============
+       Plots the same 30-day mean series as Figure 2 (FIG.F2.ma30, daily
+       DefiLlama volume through 13 Nov 2026) against F1's $75M/day kill line.
+       The baked series itself reproduces the backtest counts exactly: 675
+       defined windows, 473 of them below the line, the last below-floor
+       window ending 22 Aug 2026 at $74.66M, and $126.58M today. */
+    function FigBT(){
+      return html`<${FigShell} extraClass="fig-narrow" tag="BACKTEST FIGURE · F1 MARGIN HISTORY" readout=${html`30D MEAN <b>$126.58M/day</b> · <b>1.69x</b> THE $75M FLOOR`}
+        caption=${html`<span><b>F1 margin history:</b> the 30-day mean of daily Intents volume against the $75M/day kill line, January 2025 – November 2026. The mean sits below the line in 473 of 675 windows (70%); the vertical marker is 23 August 2026, the first date after which it never drops below again — 83 consecutive above-floor windows through 13 Nov 2026. Counterfactual backtest: the kill line was written in November 2026. Source: DefiLlama daily Intents volume (same series as Figure 2), through 13 Nov 2026.</span>`}>
+        <${TSChart} base=${FIG.F2.base} aria="Backtest figure: 30-day mean Intents volume versus the 75 million dollars per day F1 kill line, January 2025 to November 2026, with 23 August 2026 marked as the date the thesis became statable"
+          windows=${[{label:"Last 6M",n:180},{label:"Last 1Y",n:365},{label:"All",n:704}]} defWin=${2}
+          hline=${{ y:75, label:"F1 kill line — $75M/day" }}
+          events=${[["2026-08-23","23 AUG 2026 — BECAME STATABLE"]]}
+          yFmtL=${v => "$" + Math.round(v) + "M"}
+          series=${[
+            { label:"30-day mean volume", color:"#00dcb0", width:1.8, data:FIG.F2.ma30, fmt:v => "$" + v.toFixed(1) + "M" },
+          ]} />
+      <//>`;
+    }
+
     /* ============ Chapter 1 — Summary ============ */
     function ChSummary(props){
       return html`<section class="chapter">
@@ -1187,6 +1210,7 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
             <li><b>The protocol converts a rising share of that volume into net revenue that is routed to buybacks</b> — the buyback wallet has accumulated 2.28 million NEAR (about $7.6 million) — and across its entire on-chain history it has made only three outflows, totalling 12,025 NEAR (0.5% of inflows), each itemised in Chapter 4.</li>
             <li><b>Governance tightens supply,</b> with the House of Stake approving a cut of maximum inflation from 2.5% to 1.6% on 2 November 2026 (HSP-029, phased over 24 months), which shrinks the volume threshold V* at which net issuance flips negative to roughly 2.9 times the current run-rate (V* $367M/day, measured 14 Nov 2026). Even at that lower threshold, buybacks offset issuance only in the bull scenario — not in the bear or base cases — and only if the cut goes live and 30% annual growth is sustained for five years.</li>
           </ol>
+          <p>By its own kill lines, the thesis only became statable on 23 August 2026 — before that it would have been dead in 70% of historical windows.</p>
         </div>
         <div class="verdictpanel">
           <h3>Verdict — priced for delivery</h3>
@@ -1497,6 +1521,42 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
             </tbody>
           </table>
           <p class="tbl-cap"><b>Table 5: The invalidation dashboard.</b> All readings re-runnable except F5. A single triggered falsifier downgrades the thesis; two concurrent triggers end it.</p>
+        </div>
+        <div class="prose after-tbl">
+          <h3>Backtest: the kill lines, run backwards</h3>
+          <p><b>Honesty label.</b> The F1 and F2 thresholds in Table 5 were written in <b>November 2026</b>. Applying them to earlier dates is a <b>counterfactual backtest</b>: it asks when the thesis would have died had these lines been watched since Intents launched. It is not a claim that the thesis existed then, and every number in this subsection carries that label.</p>
+          <p><b>F1 — volume against the $75M/day floor.</b> Sliding the checker’s own 30-day window across the full daily series (704 daily rows through 13 Nov 2026; 675 windows, the first ending 8 Jan 2025), <b>473 of 675 windows (70%) fall below the floor</b> — by its own kill line, the thesis would have been dead for most of Intents’ history. The longest below-floor run is <b>304 consecutive windows</b>, ending 7 Nov 2025. The last below-floor window ends <b>22 Aug 2026</b> (30-day mean $74.66M); from <b>23 Aug 2026</b> the mean never drops below the line again — <b>83 consecutive above-floor windows</b> through 13 Nov 2026. Today the 30-day mean is <b>$126.58M/day, 1.69x the floor</b>. Monthly mean daily volume ($M) traces the climb: Dec-24 0.1, Jan-25 0.2, Feb 0.5, Mar 0.8, Apr 1.5, May 2.9, Jun 6.1, Jul 7.6, Aug 10.7, Sep 16.1, Oct 55.6, Nov 122.0, Dec 64.8, Jan-26 87.9, Feb 84.9, Mar 67.1, Apr 63.2, May 64.4, Jun 78.5, Jul 71.1, Aug 89.6, Sep 160.1, Oct 128.6, Nov-26 (13 days) 136.3. The takeaway is stated, not hidden: <b>the thesis is young — by its own standard it only became statable on 23 Aug 2026.</b></p>
+        </div>
+        ${html`<${FigBT} />`}
+        <div class="prose after-fig">
+          <p><b>F2 — take and capture, by month.</b> Table 6 is a <b>monthly approximation</b> of the checker’s 60-day window — monthly net revenue divided by monthly gross fees and monthly volume — not an exact replication of the checker, and it is labelled as such wherever it appears. The kill line is unchanged: effective take below 3 bps, <i>or</i> capture below 15% of gross.</p>
+        </div>
+        <div class="tblwrap">
+          <table class="dtable">
+            <thead><tr><th>Month</th><th>Net revenue</th><th>Capture</th><th>Take</th><th>vs kill line</th></tr></thead>
+            <tbody>
+              <tr><td class="n">2025-08</td><td class="n">$0.03M</td><td class="n">6.6%</td><td class="n">0.83 bps</td><td class="st trig">TRIGGERED</td></tr>
+              <tr><td class="n">2025-09</td><td class="n">$0.03M</td><td class="n">4.0%</td><td class="n">0.59 bps</td><td class="st trig">TRIGGERED</td></tr>
+              <tr><td class="n">2025-10</td><td class="n">$0.30M</td><td class="n">11.8%</td><td class="n">1.72 bps</td><td class="st trig">TRIGGERED</td></tr>
+              <tr><td class="n">2025-11</td><td class="n">$0.66M</td><td class="n">8.5%</td><td class="n">1.80 bps</td><td class="st trig">TRIGGERED</td></tr>
+              <tr><td class="n">2025-12</td><td class="n">$0.28M</td><td class="n">6.8%</td><td class="n">1.40 bps</td><td class="st trig">TRIGGERED</td></tr>
+              <tr><td class="n">2026-01</td><td class="n">$0.53M</td><td class="n">11.9%</td><td class="n">1.93 bps</td><td class="st trig">TRIGGERED</td></tr>
+              <tr><td class="n">2026-02</td><td class="n">$0.43M</td><td class="n">10.4%</td><td class="n">1.81 bps</td><td class="st trig">TRIGGERED</td></tr>
+              <tr><td class="n">2026-03</td><td class="n">$0.40M</td><td class="n">11.0%</td><td class="n">1.90 bps</td><td class="st trig">TRIGGERED</td></tr>
+              <tr><td class="n">2026-04</td><td class="n">$0.40M</td><td class="n">12.5%</td><td class="n">2.12 bps</td><td class="st trig">TRIGGERED</td></tr>
+              <tr><td class="n">2026-05</td><td class="n">$0.82M</td><td class="n">27.4%</td><td class="n">4.13 bps</td><td class="st ok">OK</td></tr>
+              <tr><td class="n">2026-06</td><td class="n">$0.94M</td><td class="n">30.3%</td><td class="n">4.01 bps</td><td class="st ok">OK</td></tr>
+              <tr class="hl"><td class="n">2026-07</td><td class="n">$0.65M</td><td class="n">20.0%</td><td class="n">2.97 bps</td><td class="st trig">TRIGGERED (take leg only)</td></tr>
+              <tr><td class="n">2026-08</td><td class="n">$0.87M</td><td class="n">22.7%</td><td class="n">3.14 bps</td><td class="st ok">OK</td></tr>
+              <tr><td class="n">2026-09</td><td class="n">$2.20M</td><td class="n">30.0%</td><td class="n">4.57 bps</td><td class="st ok">OK</td></tr>
+              <tr><td class="n">2026-10</td><td class="n">$2.50M</td><td class="n">39.2%</td><td class="n">6.28 bps</td><td class="st ok">OK</td></tr>
+              <tr><td class="n">2026-11 (MTD)</td><td class="n">$0.75M</td><td class="n">31.3%</td><td class="n">4.71 bps</td><td class="st ok">OK</td></tr>
+            </tbody>
+          </table>
+          <p class="tbl-cap"><b>Table 6: F2 backtest — monthly approximation</b> of the checker’s 60-day window (not an exact checker replication). Kill line: take below 3 bps or capture below 15%. Nov 2026 is month-to-date. Counterfactual backtest — the thresholds were written in Nov 2026.</p>
+        </div>
+        <div class="prose after-tbl">
+          <p>F2 would have been dead for <b>nine straight months</b> (Aug 2025 – Apr 2026), crossed into life in <b>May 2026</b>, and relapsed once in <b>Jul 2026</b> on the take leg alone — 2.97 bps against the 3 bps line, a near-miss worth naming. The monetisation pillar is five months old, not a long-run fact.</p>
         </div>
         <div class="prose">
           <p>Symmetrically, the thesis strengthens if: capture holds above 40% of gross for a quarter; the V* coverage ratio (current volume over V*) rises through 0.5 on a sustained basis; the staking ratio holds above 40% through the first year of the inflation cut; and confidential TVL re-accelerates after its October consolidation. None of these require narrative — they are one-line API checks, which is the point of the evidence standard.</p>
