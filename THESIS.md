@@ -22,6 +22,8 @@ Three things have to be true for the claim to hold:
 
 If any of the three fails, the claim weakens — see §7 (what would change our mind).
 
+One fact about the claim's age: by its own kill lines, the thesis only became statable on 23 August 2026 — before that it would have been dead in 70% of historical windows (backtest, §7).
+
 ## 2. Sub-hypothesis A — Intents volume is sticky
 
 **Claim:** most Intents volume comes from addresses that swap repeatedly, not from one-off users.
@@ -149,6 +151,45 @@ The thesis is wrong — or not worth holding — if any of these show up in the 
 | F6 | Net-revenue run-rate stalls | current run-rate < 2× run-rate 4 quarters ago | $22.28M/yr vs $1.41M/yr = 15.8× | Not triggered |
 
 Note on F4: the balance/receipts figures above are the frozen dashboard snapshot (2,280,770.08 NEAR / 768 receipts). The fresh `buyback_wallet_30d.json` pull in this repo reads 2,281,071.57 NEAR / 767 receipts — the wallet accrues inbound transfers intraday, so the two differ by drift, not by error. Either reading leaves F4 untriggered (outflow 0.00 in both). The full-history census (§5) read all 3,408 receipts: only three outflows totalling 12,025 NEAR (0.5% of inflows) across the wallet's whole life, so the sink characterization holds beyond the 30-day window.
+
+### The falsifiers, backtested
+
+**Honesty label — read this first.** The F1/F2 kill lines were written in **November 2026**. Applying them to earlier dates is a **counterfactual**: "had these lines been watched since Intents launched, when would the thesis have died?" It is NOT a claim the thesis existed then.
+
+**F1 — the volume floor, run backwards.** 30-day rolling mean of `data/intents_volume_daily.csv` (704 daily rows, 2024-12-10..2026-11-13), kill line $75M/day — the same definition as `scripts/check_falsifiers.py` F1. 675 windows (first window ends 2025-01-08). Data as of 2026-11-13.
+
+- **473 of 675 windows (70%) below the floor.** By its own kill line, the thesis would have been dead for most of Intents' history.
+- **Longest below-floor run: 304 consecutive windows, ending 2025-11-07.**
+- **Last below-floor window: 2026-08-22 (30d mean $74.66M).**
+- **First date after which the 30d mean never drops below again: 2026-08-23.** That is 83 consecutive above-floor windows through 2026-11-13.
+- **Today: $126.58M/day = 1.69× the floor** (matches `data/falsifiers.json` exactly).
+
+Monthly mean daily volume ($M): Dec-24 0.1, Jan-25 0.2, Feb 0.5, Mar 0.8, Apr 1.5, May 2.9, Jun 6.1, Jul 7.6, Aug 10.7, Sep 16.1, Oct 55.6, Nov 122.0, Dec 64.8, Jan-26 87.9, Feb 84.9, Mar 67.1, Apr 63.2, May 64.4, Jun 78.5, Jul 71.1, Aug 89.6, Sep 160.1, Oct 128.6, Nov (13d) 136.3.
+
+**The takeaway:** the thesis is young — by its own standard it only became statable on **23 Aug 2026**, under three months before submission. That is a strength to state, not a weakness to hide: the verdict rests on the recent regime, and the backtest proves the kill line has teeth (it would have killed this thesis for most of its own history).
+
+**F2 — the take/capture floor, monthly approximation.** Monthly net revenue (`intents_revenue_monthly.csv`, Aug 2025..Nov 2026) divided by monthly gross fees and monthly volume (both aggregated from the shipped daily DefiLlama CSVs). Kill line: take < 3 bps OR capture < 15%. This is a **monthly approximation** of the checker's 60-day rolling window, not an exact replication — do not present monthly figures as checker readings.
+
+| Month | Net ($M) | Capture | Take (bps) | vs kill line |
+|---|---|---|---|---|
+| 2025-08 | 0.03 | 6.6% | 0.83 | TRIGGERED |
+| 2025-09 | 0.03 | 4.0% | 0.59 | TRIGGERED |
+| 2025-10 | 0.30 | 11.8% | 1.72 | TRIGGERED |
+| 2025-11 | 0.66 | 8.5% | 1.80 | TRIGGERED |
+| 2025-12 | 0.28 | 6.8% | 1.40 | TRIGGERED |
+| 2026-01 | 0.53 | 11.9% | 1.93 | TRIGGERED |
+| 2026-02 | 0.43 | 10.4% | 1.81 | TRIGGERED |
+| 2026-03 | 0.40 | 11.0% | 1.90 | TRIGGERED |
+| 2026-04 | 0.40 | 12.5% | 2.12 | TRIGGERED |
+| 2026-05 | 0.82 | 27.4% | 4.13 | ok |
+| 2026-06 | 0.94 | 30.3% | 4.01 | ok |
+| 2026-07 | 0.65 | 20.0% | 2.97 | TRIGGERED (take leg only) |
+| 2026-08 | 0.87 | 22.7% | 3.14 | ok |
+| 2026-09 | 2.20 | 30.0% | 4.57 | ok |
+| 2026-10 | 2.50 | 39.2% | 6.28 | ok |
+| 2026-11 (MTD) | 0.75 | 31.3% | 4.71 | ok |
+
+**Takeaway:** F2 would have been dead for 9 straight months (Aug 2025–Apr 2026), crossed into life in **May 2026**, and relapsed once in Jul 2026 on the take leg alone (2.97 bps vs the 3 bps line — a near-miss worth naming). The monetisation pillar is five months old, not a long-run fact.
 
 - Intents volume **only follows** price (no lead at any lag in the lead/lag test), i.e. volume is a consequence of speculation, not of usage. **Status: not established either way on levels; on changes there is no correlation (repo test r = −0.098 best lag, placebo p = 0.592; PDF v3 r ≈ 0.01). The lead leg is unproven, which already weakens the claim.**
 - Sub-hypothesis A fails: >80% of volume is one-off addresses. **Status: uncomputed (no JWT).**
