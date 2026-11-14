@@ -4,6 +4,42 @@ An investment thesis on NEAR, presented as two static pages: a full thesis dashb
 
 **Verdict: priced for delivery.** At the snapshot price, the market is already paying for delivery that still has to happen. The thesis stands only while none of its falsifiers fire: one triggered falsifier downgrades it, two concurrent triggers end it.
 
+## For judges
+
+- **Latest run (14 Nov 2026): 0 of 6 falsifiers triggered** — 4 not
+  triggered, 1 not yet decidable (F3), 1 cannot check (F5). Full results
+  in [`data/falsifiers.json`](data/falsifiers.json) (generated
+  2026-11-14 11:42 UTC, data as of 2026-11-13).
+- **Read it live:** [the dashboard](https://0xrard.github.io/Near-Hackathon/)
+  — the full argument, the scenario and valuation work, and the falsifier
+  board, on the frozen 14 Nov 2026 snapshot, with a live re-check shown
+  as a note beside it.
+- **Try to kill the thesis yourself:**
+  [the invalidation terminal](https://0xrard.github.io/Near-Hackathon/terminal.html)
+  — drag the kill-switch sliders to push volume, take rate or capture
+  past their thresholds and watch the verdict react. F1 and F2 are live;
+  F3–F6 are static, each for a stated reason (see "The six falsifiers").
+- **Re-run the numbers yourself:** `python3 scripts/check_falsifiers.py`
+  re-checks all six falsifiers from the shipped data in ~10 seconds, no
+  credentials; `bash rebuild.sh --model-only` rebuilds the model, the
+  figures and the check. Full guide in "Reproduce the numbers" below.
+- **The falsifiers were fixed in advance** — defined in the author's
+  earlier public working repo before this snapshot existed; see
+  "Pre-registration" below.
+
+## Run it
+
+Open `index.html` or `terminal.html` in any modern browser — that is all. To serve the folder locally instead:
+
+```bash
+python3 -m http.server 8000
+# then open http://localhost:8000/ or http://localhost:8000/terminal.html
+```
+
+An internet connection is needed for the live re-check. Offline, both pages still work and simply show the 14 Nov 2026 frozen snapshot.
+
+The site is also published with GitHub Pages from this repository: [github.com/0xrard/Near-Hackathon](https://github.com/0xrard/Near-Hackathon).
+
 ## What is in this repo
 
 | Path | What it is |
@@ -176,16 +212,3 @@ Why F3–F6 do not update live:
 - **One snapshot, one day.** Capture, take and the offset ratio are
   window readings (30/60 days); a different window gives a different
   number, and the report's own monthly series show how much they move.
-
-## Run it
-
-Open `index.html` or `terminal.html` in any modern browser — that is all. To serve the folder locally instead:
-
-```bash
-python3 -m http.server 8000
-# then open http://localhost:8000/ or http://localhost:8000/terminal.html
-```
-
-An internet connection is needed for the live re-check. Offline, both pages still work and simply show the 14 Nov 2026 frozen snapshot.
-
-The site is also published with GitHub Pages from this repository: [github.com/0xrard/Near-Hackathon](https://github.com/0xrard/Near-Hackathon).
