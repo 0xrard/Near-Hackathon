@@ -53,7 +53,7 @@
         .topbar-in{ display:flex; flex-direction:column; align-items:center; }
         .top-meta{ align-self:flex-start; justify-content:flex-start; }
         .top-actions{ align-items:center; }
-        .live-status{ text-align:center; }
+        .live-status{ text-align:center; left:50%; right:auto; transform:translateX(-50%); }
       }
       .frozen{
         font-family:var(--mono); font-size:9.5px; letter-spacing:.07em;
@@ -62,7 +62,7 @@
       }
       .frozen i{ width:5px; height:5px; border-radius:50%; background:var(--amber); display:inline-block; }
       .frozen.live i{ background:var(--green); }
-      .top-actions{ justify-self:end; display:flex; flex-direction:column; align-items:flex-end; gap:4px; }
+      .top-actions{ justify-self:end; display:flex; flex-direction:column; align-items:flex-end; gap:4px; position:relative; }
       .recheck{
         font-family:var(--mono); font-size:12px; font-weight:600; letter-spacing:.04em; cursor:pointer;
         color:#041210; background:#ffffff; border:1px solid #ffffff;
@@ -76,7 +76,10 @@
       .recheck.loading .spin{ display:inline-block; }
       @keyframes spin{ to{ transform:rotate(360deg); } }
       @media (prefers-reduced-motion: reduce){ .recheck .spin{ animation:none; } }
-      .live-status{ font-family:var(--mono); font-size:10.5px; color:#ffffff; text-align:right; }
+      /* out of flow: the status appears under the button without growing the
+         topbar or pushing the "Recheck live" button up */
+      .live-status{ font-family:var(--mono); font-size:10.5px; color:#ffffff; text-align:right;
+        position:absolute; top:calc(100% + 4px); right:0; width:max-content; max-width:240px; }
       .live-status.ok{ color:#ffffff; }
       .live-status.err{ color:var(--amber); }
       .topbar nav{
@@ -95,7 +98,14 @@
       .tabbtn.on{ color:var(--teal-ink); background:var(--teal-grad); border-color:transparent; font-weight:600; box-shadow:0 6px 18px rgba(20,184,166,.38); }
 
       /* ---------- hero ---------- */
-      .hero{ padding:64px 0 8px; position:relative; text-align:center; }
+      .hero{
+        padding:36px 0 20px; position:relative; text-align:center;
+        /* full first screen: content sits high, close under the topbar, and
+           CH.1 (#thesis-main) starts below the fold — only reached via the
+           scroll cue / "Read the thesis" button */
+        min-height:100vh; min-height:100svh;
+        display:flex; flex-direction:column; justify-content:flex-start;
+      }
       .hero::before{
         content:""; position:absolute; inset:-30px -60px auto; height:420px; z-index:-1; pointer-events:none;
         background:radial-gradient(ellipse 55% 100% at 50% 0%, rgba(20,184,166,.34), rgba(13,148,136,.12) 55%, transparent 78%);
@@ -146,11 +156,44 @@
       .stat.hot{ border-color:var(--teal-dim); }
       .stat.hot .v{ color:var(--teal); }
 
+      /* ---------- scroll-down cue (between hero stats and Chapter 1) ---------- */
+      /* normal margin keeps the cue right under the stat grid, following the
+         content; the hero's min-height:100svh still keeps CH.1 below the fold */
+      .scroll-cue{ display:flex; justify-content:center; margin-top:22px; }
+      .scroll-cue-btn{
+        background:transparent; border:none; cursor:pointer; padding:6px 14px;
+        color:rgba(236,247,243,.68); display:inline-flex; flex-direction:column; align-items:center; justify-content:center;
+        animation:cue-bob 2.2s ease-in-out infinite;
+      }
+      .scroll-cue-btn:hover{ color:var(--teal); }
+      .scroll-cue-btn:focus-visible{ outline:2px solid var(--teal); outline-offset:2px; border-radius:6px; }
+      .scroll-cue-btn svg{ display:block; }
+      .scroll-cue-btn svg + svg{ margin-top:-7px; }
+      @keyframes cue-bob{ 0%,100%{ transform:translateY(0); opacity:.6; } 50%{ transform:translateY(6px); opacity:1; } }
+      @media (prefers-reduced-motion: reduce){ .scroll-cue-btn{ animation:none; } }
+
       /* ---------- sections ---------- */
+      /* offset anchor / scrollIntoView landings so chapter headings clear the
+         sticky topbar with only a small gap under it: the margin positions
+         the target's top edge, and the chapter's own 38px top padding plus
+         the heading offset supply the rest of the clearance (desktop topbar
+         is ~74px tall, so 64px margin lands the Ch.1 heading ~35px below
+         the bar — close, never cut off). Mobile margins shrink by the same
+         proportion against the taller stacked topbar. */
+      #thesis-main, section.chapter, #vcalc{ scroll-margin-top:64px; }
+      @media (max-width:920px){
+        #thesis-main, section.chapter, #vcalc{ scroll-margin-top:150px; }
+      }
+      @media (max-width:520px){
+        #thesis-main, section.chapter, #vcalc{ scroll-margin-top:210px; }
+      }
       section.chapter{ padding:38px 0 6px; animation:fadein .35s ease both; }
       @keyframes fadein{ from{ opacity:0; transform:translateY(8px);} to{ opacity:1; transform:none;} }
       @media (prefers-reduced-motion: reduce){ section.chapter{ animation:none; } html{ scroll-behavior:auto; } }
       .ch-head{ display:flex; align-items:baseline; gap:16px; border-bottom:1px solid var(--line); padding-bottom:14px; margin-bottom:24px; flex-wrap:wrap; }
+      /* Chapter 1 only: title sits lower, tight against the divider line below it */
+      .ch-head.ch1-head{ padding-bottom:3px; margin-bottom:35px; }
+      .ch-head.ch1-head h2{ line-height:1.15; position:relative; top:7px; }
       .ch-num{ font-family:var(--mono); color:var(--teal); font-size:14px; letter-spacing:.1em; }
       .ch-head h2{ margin:0; font-size:clamp(26px,4vw,38px); font-weight:700; letter-spacing:-.01em; }
       .ch-head p{ margin:0 0 0 auto; color:var(--ink3); font-size:13.5px; max-width:380px; }
@@ -179,20 +222,6 @@
       .pillar .n{ font-family:var(--mono); color:var(--teal); font-size:12px; letter-spacing:.14em; }
       .pillar h3{ margin:8px 0 8px; font-size:18px; }
       .pillar p{ margin:0; color:var(--ink2); font-size:14.5px; }
-
-      /* delta box */
-      .delta{
-        border:1px solid var(--teal-dim); border-radius:var(--rad);
-        background:linear-gradient(180deg, rgba(0,220,176,.07), rgba(0,220,176,.02));
-        padding:20px 22px; margin-top:22px;
-      }
-      .delta h3{ margin:0 0 4px; font-size:17px; color:var(--teal); }
-      .delta .dsub{ margin:0 0 12px; font-size:13.5px; color:var(--ink3); }
-      .delta ul{ margin:0; padding-left:18px; color:var(--ink2); font-size:14.5px; }
-      .delta li{ margin-bottom:7px; }
-      .delta li b{ color:var(--ink); font-family:var(--mono); font-weight:600; font-size:13.5px; }
-      .delta .dfoot{ margin:12px 0 0; font-size:14px; color:var(--ink2); }
-      .delta .dfoot b{ color:var(--teal); }
 
       /* ---------- figures ---------- */
       figure.fig{ margin:22px 0 8px; background:var(--panel); border:1px solid var(--line); border-radius:var(--rad); padding:18px 20px 14px; }
@@ -259,6 +288,13 @@
       }
       .verdictpanel h3{ margin:0 0 8px; font-size:17px; color:var(--teal); }
       .verdictpanel p{ margin:0; color:var(--ink2); font-size:15px; }
+      .ch-next{ display:flex; justify-content:flex-end; margin-top:20px; }
+      .btn-next{
+        font-family:var(--sans); font-size:13px; font-weight:600; cursor:pointer;
+        color:var(--ink); background:transparent; border:1px solid rgba(0,220,176,.55);
+        border-radius:999px; padding:6px 16px; min-height:2rem; line-height:1.3;
+      }
+      .btn-next:hover{ background:rgba(0,220,176,.08); border-color:var(--teal); }
 
       .codeblock{
         background:#071a17; border:1px solid var(--line); border-radius:8px;
@@ -374,12 +410,17 @@
     const { useState, useEffect, useRef } = React;
     const html = htm.bind(React.createElement);
 
-    /* ============ frozen thesis data — snapshot 13 Nov 2026 ============ */
+    /* ============ frozen thesis data — snapshot 14 Nov 2026 (morning) ============
+       price $3.32 / mcap $4.36B / rank #22 are the 14 Nov morning readings;
+       price-dependent figures are rescaled from the 13 Nov run at the same
+       revenue denominators: ps 66.1 x 4.36/4.61 = 62.5, V* scales with price
+       (605 x 3.32/3.51 = 572, 387 x 3.32/3.51 = 366). Volume, offset and the
+       model figures in the chapters keep their 13 Nov readings. */
     const SNAP = {
-      date: "13 Nov 2026",
-      price: 3.51, mcap: 4.61, volume: 126, offset: 18.6, ps: 66.1,
+      date: "14 Nov 2026",
+      price: 3.32, mcap: 4.36, volume: 126, offset: 18.6, ps: 62.5,
       revenue: 22.28, revenuePrev: 1.41, takeBps: 5.24, capture: 32.2,
-      vstar25: 605, vstar25x: 4.8, vstar16: 387, vstar16x: 3.1,
+      vstar25: 572, vstar25x: 4.5, vstar16: 366, vstar16x: 2.9,
     };
     const SUPPLY = 1311421234; /* NEAR total supply, CoinGecko 11 Nov 2026 */
     /* V* (HTML model, Appendix B): V* = (S x i x P) / (365 x take x capture)  [$ per day] */
@@ -1008,12 +1049,11 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
     }
 
     /* ============ Chapter 1 — Summary ============ */
-    function ChSummary(){
+    function ChSummary(props){
       return html`<section class="chapter">
-        <div class="ch-head"><span class="ch-num">CH.1</span><h2>Where Things Stand</h2>
-          <p>A long-term investment thesis, judged on evidence. NEAR Protocol beyond the price.</p></div>
+        <div class="ch-head ch1-head"><h2>Where Things Stand</h2></div>
         <div class="prose">
-          <p>NEAR is a sharded proof-of-stake layer-1 whose investment case has migrated from ‘high-throughput smart-contract chain’ to ‘cross-chain settlement and value-capture layer.’ As of 13 November 2026, NEAR trades at <b>$3.51</b> with a <b>$4.61 billion</b> market capitalization (rank #24), 82.4% below its January 2022 all-time high of $20.40 and up 41.3% year-over-year. The engine of the long-term thesis is NEAR Intents, a chain-abstraction and solver network that has settled <b>$37.3 billion</b> all-time (88% of it in the trailing twelve months) and now averages <b>$126 million per day</b>. Since the fee switch went live, the protocol has captured $11.63 million of cumulative net revenue against $60.97 million of gross Intents fees, with the monthly capture rate rising from roughly 11% early in 2026 to 39.2% in October. Net revenue currently offsets <b>18.6%</b> of token emissions.</p>
+          <p>NEAR is a sharded proof-of-stake layer-1 whose investment case has migrated from ‘high-throughput smart-contract chain’ to ‘cross-chain settlement and value-capture layer.’ As of 14 November 2026, NEAR trades at <b>$3.32</b> with a <b>$4.36 billion</b> market capitalization (rank #22), 83.7% below its January 2022 all-time high of $20.40 and up 36.1% year-over-year. The engine of the long-term thesis is NEAR Intents, a chain-abstraction and solver network that has settled <b>$37.3 billion</b> all-time (88% of it in the trailing twelve months) and now averages <b>$126 million per day</b>. Since the fee switch went live, the protocol has captured $11.63 million of cumulative net revenue against $60.97 million of gross Intents fees, with the monthly capture rate rising from roughly 11% early in 2026 to 39.2% in October. Net revenue currently offsets <b>18.6%</b> of token emissions.</p>
           <h3>The thesis, stated so it can be tested</h3>
           <ol class="claims">
             <li><b>Cross-chain volume keeps compounding through Intents.</b></li>
@@ -1023,19 +1063,10 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
         </div>
         <div class="verdictpanel">
           <h3>Verdict — priced for delivery</h3>
-          <p>At $4.61 billion, NEAR trades at about 163 times annualized captured revenue and 66.1 times annualized gross fees. For today’s price to be justified at a mature 60 times net revenue, captured revenue must grow roughly 2.7 times to $81 million per year — almost exactly the growth the deflation model requires. The market has already paid for delivery of the disclosed plan; upside therefore requires outperformance against that plan, not closure of a mispricing. Every load-bearing number in this report is re-runnable from public endpoints without API keys; sources that cannot be re-run (Nansen research, ETF flow tallies) are marked ‘cited, not re-runnable’ and never support a main claim alone.</p>
+          <p>At $4.36 billion, NEAR trades at about 154 times annualized captured revenue and 62.5 times annualized gross fees. For today’s price to be justified at a mature 60 times net revenue, captured revenue must grow roughly 2.6 times to $77 million per year — almost exactly the growth the deflation model requires. The market has already paid for delivery of the disclosed plan; upside therefore requires outperformance against that plan, not closure of a mispricing. Every load-bearing number in this report is re-runnable from public endpoints without API keys; sources that cannot be re-run (Nansen research, ETF flow tallies) are marked ‘cited, not re-runnable’ and never support a main claim alone.</p>
         </div>
-        <div class="delta">
-          <h3>What changed since 11 Nov</h3>
-          <p class="dsub">The thesis was re-run on 13 Nov 2026 against fresh readings. Every change is listed; nothing was silently edited.</p>
-          <ul>
-            <li>Price <b>$3.72 → $3.51</b>; market cap <b>$4.88B → $4.61B</b></li>
-            <li>Buyback wallet balance <b>2,245,764 → 2,273,914 NEAR</b> (+28,150)</li>
-            <li>F2 capture <b>32.6%</b> (60-day window 12 Sep to 10 Nov) → <b>32.2%</b> (60-day window 14 Sep to 12 Nov)</li>
-            <li>V* at 2.5% issuance <b>$641M/day → $605M/day (4.8x)</b>; at 1.6% <b>$410M/day → $387M/day (3.1x)</b></li>
-            <li>Verdict unchanged: <b>“priced for delivery”</b>, 0 of 6 falsifiers triggered.</li>
-          </ul>
-          <p class="dfoot">The thesis is a living document: it was re-run on 13 Nov and <b>the verdict did not change</b>.</p>
+        <div class="ch-next">
+          <button class="btn-next" onClick=${props.onNext}>Next ></button>
         </div>
       </section>`;
     }
@@ -1260,7 +1291,8 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
     }
 
     /* ============ Chapter 6 — Risks, counterarguments, invalidation ============ */
-    function ChRisks(){
+    function ChRisks(props){
+      const f1Reading = props && props.f1Live != null ? "$" + fmt(props.f1Live) + "M/day (30d avg) · live" : "$125M/day (30d avg)";
       return html`<section class="chapter">
         <div class="ch-head"><span class="ch-num">CH.6</span><h2>Risks, Counterarguments, and Invalidation Criteria</h2>
           <p>What could make the verdict wrong in either direction.</p></div>
@@ -1280,7 +1312,7 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
           <table class="dtable">
             <thead><tr><th>ID</th><th>Falsifier</th><th>Threshold (invalidation)</th><th>Reading (11 Nov 2026)</th><th>Endpoint</th></tr></thead>
             <tbody>
-              <tr><td class="n">F1</td><td><b>Intents volume demand</b></td><td>30d average below $75M/day for 30 consecutive days</td><td>$125M/day (30d avg)</td><td>DefiLlama /summary/dexs/near-intents</td></tr>
+              <tr><td class="n">F1</td><td><b>Intents volume demand</b></td><td>30d average below $75M/day for 30 consecutive days</td><td>${f1Reading}</td><td>DefiLlama /summary/dexs/near-intents</td></tr>
               <tr><td class="n">F2</td><td><b>Take rate / capture</b></td><td>Effective take below 3 bps, or capture below 15% of gross, sustained 60 days</td><td>6.28 bps; 39.2% (Oct)</td><td>DefiLlama fees + revenue.near.org</td></tr>
               <tr><td class="n">F3</td><td><b>Inflation policy</b></td><td>HSP-029 not live on-chain by mid-2027, or new proposal raises max above 2.5%</td><td>RPC: 2.5% (1/40); 1.6% passed 2 Nov 2026</td><td>RPC EXPERIMENTAL_protocol_config</td></tr>
               <tr><td class="n">F4</td><td><b>Buyback wallet integrity</b></td><td>Net outflow over 5% of balance (~112K NEAR) in any 30d window, or 2 months of balance decline</td><td>Balance 2,273,914 NEAR; 0.00 NEAR out (0.0000% of balance), 783 receipts (14 Oct – 13 Nov)</td><td>RPC view_account + NearBlocks txns</td></tr>
@@ -1443,28 +1475,51 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
 
     function App(){
       const [tab, setTab] = useState("summary");
-      const [live, setLive] = useState(null);            /* null = showing the 13 Nov snapshot */
+      const [live, setLive] = useState(null);            /* null = showing the 14 Nov snapshot */
       const [liveStatus, setLiveStatus] = useState("idle"); /* idle | loading | ok | error */
-      const recheck = async () => {
-        if (liveStatus === "loading") return;
+      const inFlight = useRef(false);
+      const autoTried = useRef(false);
+      const recheck = async (opts) => {
+        const isAuto = !!(opts && opts.auto === true);   /* button onClick passes an event, not {auto:true} */
+        if (inFlight.current) return;
+        inFlight.current = true;
         setLiveStatus("loading");
-        let d = await fetchLiveData();
-        if (!d.price && !d.volume){   /* one retry before declaring failure */
-          await new Promise(r => setTimeout(r, 1200));
-          d = await fetchLiveData();
+        try {
+          let d = await fetchLiveData();
+          if (!d.price && !d.volume){   /* one retry before declaring failure */
+            await new Promise(r => setTimeout(r, 1200));
+            d = await fetchLiveData();
+          }
+          if (!d.price && !d.volume){
+            /* fail-silent: snapshot stays on screen; an auto-fetch on page load
+               stays completely silent (chip keeps DATA FROZEN, no error note),
+               a manual Recheck still reports the failure as before */
+            setLiveStatus(isAuto ? "idle" : "error");
+            return;
+          }
+          const prev = live || SNAP;
+          const price = d.price || prev.price;
+          const mcap = price * SUPPLY / 1e9;
+          const volume = d.volume || prev.volume;
+          const ps = d.feesDay ? (mcap * 1000) / (d.feesDay * 365 / 1e6) : prev.ps;
+          const v25 = vstarFull(2.5, price, 16, 32.6) / 1e6;   /* model inputs: 16 bps gross take, 32.6% capture */
+          setLive({ price, mcap, volume, ps,
+            vstar25: v25, vstar25x: v25 / volume, vstar16x: v25 * 0.64 / volume,
+            at: new Date() });
+          setLiveStatus("ok");
+        } catch (e) {
+          setLiveStatus(isAuto ? "idle" : "error");
+        } finally {
+          inFlight.current = false;
         }
-        if (!d.price && !d.volume){ setLiveStatus("error"); return; }   /* fail silent: snapshot stays on screen */
-        const prev = live || SNAP;
-        const price = d.price || prev.price;
-        const mcap = price * SUPPLY / 1e9;
-        const volume = d.volume || prev.volume;
-        const ps = d.feesDay ? (mcap * 1000) / (d.feesDay * 365 / 1e6) : prev.ps;
-        const v25 = vstarFull(2.5, price, 16, 32.6) / 1e6;   /* model inputs: 16 bps gross take, 32.6% capture */
-        setLive({ price, mcap, volume, ps,
-          vstar25: v25, vstar25x: v25 / volume, vstar16x: v25 * 0.64 / volume,
-          at: new Date() });
-        setLiveStatus("ok");
       };
+      /* auto-fetch live data on page load / manual refresh, like the terminal;
+         fail-silent — on failure the 14 Nov snapshot and frozen chip stay */
+      useEffect(() => {
+        if (autoTried.current) return;
+        autoTried.current = true;
+        recheck({ auto: true });
+      }, []);
       const disp = live || SNAP;
       const liveTime = live ? live.at.toLocaleTimeString("en-GB", { hour: "2-digit", minute: "2-digit" }) : "";
       const go = (id) => { setTab(id); window.scrollTo({ top: 0, behavior:"smooth" }); };
@@ -1475,7 +1530,7 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
           <div class="top-meta">
             ${live
               ? html`<span class="frozen live"><i></i>LIVE · UPDATED ${liveTime}</span>`
-              : html`<span class="frozen"><i></i>DATA FROZEN · 13 NOV 2026</span>`}
+              : html`<span class="frozen"><i></i>DATA FROZEN · 14 NOV 2026</span>`}
           </div>
           <nav>
             ${CHAPTERS.map(c => html`<button key=${c.id} class=${"tabbtn" + (tab === c.id ? " on" : "")} onClick=${() => go(c.id)}>${c.label}</button>`)}
@@ -1486,7 +1541,7 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
             </button>
             ${liveStatus === "loading" ? html`<span class="live-status">Fetching live price + volume…</span>` : null}
             ${liveStatus === "ok" ? html`<span class="live-status ok">Live data · updated ${liveTime}</span>` : null}
-            ${liveStatus === "error" ? html`<span class="live-status err">Live check failed — showing 13 Nov snapshot</span>` : null}
+            ${liveStatus === "error" ? html`<span class="live-status err">Live check failed — showing 14 Nov snapshot</span>` : null}
           </div>
         </div></div>
 
@@ -1499,28 +1554,35 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
               <a class="btn-outline" href="https://0xrard.github.io/Near-Hackathon/terminal.html" target="_blank" rel="noopener noreferrer">Kill the thesis</a>
             </div>
             <div class="stats">
-              ${html`<${Stat} k="NEAR PRICE" raw=${disp.price} format=${v => "$" + fmt(v,2)} d=${live ? "Live · public price feeds" : "Snapshot, 13 Nov 2026"} />`}
-              ${html`<${Stat} k="MARKET CAP" raw=${disp.mcap} format=${v => "$" + fmt(v,2) + "B"} d=${live ? "Live · price × total supply" : "Rank #24 at the snapshot"} />`}
+              ${html`<${Stat} k="NEAR PRICE" raw=${disp.price} format=${v => "$" + fmt(v,2)} d=${live ? "Live · public price feeds" : "Snapshot, 14 Nov 2026"} />`}
+              ${html`<${Stat} k="MARKET CAP" raw=${disp.mcap} format=${v => "$" + fmt(v,2) + "B"} d=${live ? "Live · price × total supply" : "Rank #22 at the snapshot"} />`}
               ${html`<${Stat} k="INTENTS VOLUME" raw=${disp.volume} format=${v => "$" + fmt(v) + "M"} d=${live ? "Per day · 30-day average · live" : "Per day · 30-day average"} hot=${true} />`}
               ${html`<${Stat} k="EMISSION OFFSET" raw=${SNAP.offset} format=${v => fmt(v,1) + "%"} d="Of issuance covered by fees" />`}
               ${html`<${Stat} k="PRICE / SALES" raw=${disp.ps} format=${v => fmt(v,1) + "x"} d=${live ? "Live · on annualized gross fees" : "On annualized gross fees"} />`}
-              ${html`<${Stat} k="BREAK-EVEN V*" raw=${disp.vstar25} format=${v => "$" + fmt(v) + "M/day"} d=${live ? fmt(disp.vstar25x,1) + "x today at 2.5% · " + fmt(disp.vstar16x,1) + "x at 1.6%" : "4.8x today at 2.5% · 3.1x at 1.6%"} hot=${true} />`}
+              ${html`<${Stat} k="BREAK-EVEN V*" raw=${disp.vstar25} format=${v => "$" + fmt(v) + "M/day"} d=${live ? fmt(disp.vstar25x,1) + "x today at 2.5% · " + fmt(disp.vstar16x,1) + "x at 1.6%" : "4.5x today at 2.5% · 2.9x at 1.6%"} hot=${true} />`}
+            </div>
+            <div class="scroll-cue">
+              <button type="button" class="scroll-cue-btn" onClick=${toContent} aria-label="Scroll down to the thesis">
+                <svg width="26" height="16" viewBox="0 0 26 16" fill="none" aria-hidden="true"><path d="M2 2 L13 13.5 L24 2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="26" height="16" viewBox="0 0 26 16" fill="none" aria-hidden="true"><path d="M2 2 L13 13.5 L24 2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                <svg width="26" height="16" viewBox="0 0 26 16" fill="none" aria-hidden="true"><path d="M2 2 L13 13.5 L24 2" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
             </div>
           </header>
 
           <main id="thesis-main">
-            ${tab === "summary"      && html`<${ChSummary} />`}
+            ${tab === "summary"      && html`<${ChSummary} onNext=${() => go("research")} />`}
             ${tab === "research"     && html`<${ChResearch} />`}
             ${tab === "fundamentals" && html`<${ChFundamentals} />`}
             ${tab === "tokenomics"   && html`<${ChTokenomics} />`}
             ${tab === "models"       && html`<${ChModels} />`}
-            ${tab === "risks"        && html`<${ChRisks} />`}
+            ${tab === "risks"        && html`<${ChRisks} f1Live=${live ? live.volume : null} />`}
             ${tab === "appendices"   && html`<${ChAppendices} />`}
           </main>
 
           <footer>
-            <p>NEAR INVESTMENT THESIS — ALL FIGURES FROZEN AT THE 13 NOV 2026 SNAPSHOT. FALSIFIERS F1–F6 PRE-REGISTERED; 0 OF 6 TRIGGERED. FULL TEXT, FIGURES 1–9, FEE-FLOW TRACE AND APPENDICES A–B INCLUDED.</p>
-            <p>0XRARD · INVESTMENT THESIS TRACK · NEAR HACKATHON · LAST UPDATED 13 NOV 2026</p>
+            <p>NEAR INVESTMENT THESIS — ALL FIGURES FROZEN AT THE 14 NOV 2026 SNAPSHOT. FALSIFIERS F1–F6 PRE-REGISTERED; 0 OF 6 TRIGGERED. FULL TEXT, FIGURES 1–9, FEE-FLOW TRACE AND APPENDICES A–B INCLUDED.</p>
+            <p>0XRARD · INVESTMENT THESIS TRACK · NEAR HACKATHON · LAST UPDATED 14 NOV 2026</p>
           </footer>
         </div>
       </div>`;
