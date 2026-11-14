@@ -23,6 +23,7 @@ An investment thesis on NEAR, presented as two static pages: a full thesis dashb
   re-checks all six falsifiers from the shipped data in ~10 seconds, no
   credentials; `bash rebuild.sh --model-only` rebuilds the model, the
   figures and the check. Full guide in "Reproduce the numbers" below.
+- **Verify the frozen data first:** sha256sum -c data/SHA256SUMS.txt on a fresh clone, *before* running the scripts above — the scripts refresh three timestamps and change three hashes without changing any number. Details: SNAPSHOT-MANIFEST.md.
 - **The falsifiers were fixed in advance** — defined in the author's
   earlier public working repo before this snapshot existed; see
   "Pre-registration" below.

@@ -10,4 +10,6 @@ Verify from the repo root:
 sha256sum -c data/SHA256SUMS.txt
 ```
 
+Verify on a fresh clone before running the scripts: the checker and the rebuild refresh the generated-at timestamps in falsifiers.json, manifest.json and model_outputs.json, which changes those three hashes without changing any number. If you ran them first, git checkout -- data/ restores the shipped state.
+
 If every line reads OK, the numbers in THESIS.md, the terminal and the dashboard rest on the same bytes the author froze — nothing in the evidence base has been edited after the fact. Post-deadline readings live only in the terminal's live re-check, which is labelled live wherever it appears and never writes back into `data/`.
