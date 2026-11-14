@@ -4,11 +4,10 @@
 #   bash rebuild.sh --model-only model + figures + falsifiers from the shipped CSVs (no credentials)
 #
 # This package is the MODEL + DATA + FIGURES re-run package (v2, 14 Nov 2026
-# snapshot) for the React repo (github.com/0xrard/Near-Hackathon). It does NOT
-# build any dashboard: the React dashboard (index.html) and terminal
-# (terminal.html) live in the Near-Hackathon repo and are built in the
-# artifact system, not here. There is intentionally no build_dashboard.py in
-# this package (that script built the OLD HTML dashboard, not the React one).
+# snapshot) for the React repo (github.com/0xrard/Near-Hackathon). It
+# reproduces the model outputs, the falsifier readings, and the figures.
+# It does not build the dashboard or the terminal: those are the React app
+# (index.html and terminal.html) in the Near-Hackathon repo.
 #
 # Figures (scripts/generate_chapter*_figures.py) fetch live data (keyless, no
 # credentials) and regenerate figures/ + data/captions.json + data/stats.json.

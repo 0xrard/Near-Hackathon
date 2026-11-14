@@ -44,7 +44,7 @@ Docs: https://docs.near.org/data-infrastructure/big-query
   Volume comes from the Intents API / DefiLlama, price from CoinGecko.
   The SQL file returns the on-chain activity series (tx counts + active
   accounts) that the dashboard draws as the context line; the join of
-  the three series happens in `scripts/build_dashboard.py`.
+  the three series are joined when the key chart is drawn.
 
 ## What `scripts/fetch.py` actually runs
 

@@ -6,13 +6,10 @@ This package lets anyone re-run the model, the figures, and the six
 falsifiers behind the thesis. It is the **model + data + figures** package
 for the React repo (`github.com/0xrard/Near-Hackathon`).
 
-**This package does NOT contain or build the dashboard.** The React
-dashboard (`index.html`) and terminal (`terminal.html`) live in the
-Near-Hackathon repo and are built in the artifact system. There is
-intentionally no `dashboard/` folder and no `build_dashboard.py` here —
-that script built the OLD HTML dashboard (13 Nov), not the React one.
-Do not expect this package to reproduce the dashboard; it reproduces the
-model outputs, the falsifier readings, and the figures.
+This package reproduces the model outputs, the falsifier readings, and
+the figures. The dashboard (`index.html`) and terminal (`terminal.html`)
+are the React app in the Near-Hackathon repo and are not part of this
+package.
 
 ## The 14 Nov 2026 snapshot — frozen
 

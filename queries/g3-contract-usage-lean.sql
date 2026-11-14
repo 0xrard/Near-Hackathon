@@ -3,7 +3,7 @@
 -- the receipt_origin_transaction -> transactions join (g3-contract-usage.sql,
 -- gives unique_signers) scans ~2.4 TB and exceeds the 1 TB/month free quota.
 -- Lean = receipt_actions only, no joins, no unique_signers, 7-day window.
--- Output columns: date, contract, function_calls (what build_dashboard.py reads).
+-- Output columns: date, contract, function_calls.
 SELECT
   block_date AS date,
   receipt_receiver_account_id AS contract,

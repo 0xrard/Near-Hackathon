@@ -8,7 +8,7 @@ Reads:
   - data/*.csv and data/*.json if present (fetched by scripts/fetch.py)
 
 Writes:
-  - data/model_outputs.json (consumed by scripts/build_dashboard.py)
+  - data/model_outputs.json (consumed by scripts/generate_chapter4_figures.py for the Fig7 inputs)
 
 What it computes, from primary data only:
   1. Hero stats (4): cumulative Intents volume, annualised fees (30d

@@ -3,7 +3,7 @@
 -- / DefiLlama, data/intents_volume_daily.csv) vs NEAR price (CoinGecko,
 -- data/near_price_daily.csv). This SQL returns the on-chain activity series
 -- (tx counts + active accounts) that the dashboard draws as the context
--- line; the join of the three series happens in scripts/build_dashboard.py.
+-- line; the three series (volume, price, on-chain activity) are joined when the key chart is drawn.
 -- One sentence: does Intents volume move first, or does it only follow
 -- price and on-chain activity?
 SELECT

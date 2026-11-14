@@ -344,7 +344,7 @@ def fetch_bigquery(env: dict, manifest: dict) -> None:
     # (365-day join, ~2.4 TB) exceeds the free quota, g4 is a placeholder
     # without verified contract addresses, and g5 duplicates g2. g3/g6 run
     # as the LEAN variants that produced the shipped CSVs. The output names
-    # are what model.py and build_dashboard.py read.
+    # are what model.py reads.
     bq_jobs = [
         ("00-freshness.sql", "bq_00_freshness.csv"),
         ("g1-daily-active-accounts.sql", "bq_g1_daily_active_accounts.csv"),
@@ -360,7 +360,7 @@ def fetch_bigquery(env: dict, manifest: dict) -> None:
             rows = list(client.query(sql).result())
         except Exception as exc:  # noqa: BLE001 - quota, permission, schema errors
             raise FetchError(f"BigQuery query {sql_file.name} failed: {exc}") from exc
-        # Underscore names: model.py and build_dashboard.py read
+        # Underscore names: model.py reads
         # bq_g1_daily_active_accounts.csv etc. (hyphen stems would never match).
         if rows:
             fieldnames = list(rows[0].keys())
