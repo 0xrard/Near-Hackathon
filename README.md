@@ -189,9 +189,3 @@ python3 -m http.server 8000
 An internet connection is needed for the live re-check. Offline, both pages still work and simply show the 14 Nov 2026 frozen snapshot.
 
 The site is also published with GitHub Pages from this repository: [github.com/0xrard/Near-Hackathon](https://github.com/0xrard/Near-Hackathon).
-
-## Data sources
-
-- **DefiLlama** — Intents volume and fee data behind F1, F2, and the V* recomputation.
-- **CoinGecko** — NEAR price cross-check for the live fetch.
-- **On-chain snapshot, 14 Nov 2026** — buyback wallet activity behind F4.
