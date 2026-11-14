@@ -44,7 +44,7 @@ https://www.sec.gov/Archives/edgar/data/2067111/000121390026103106/ea0306486-424
 [14] Grayscale NEAR Trust. Form S-1 filed 20 Jan 2026 (cited, not re-runnable).
 https://www.sec.gov/Archives/edgar/data/2025000/000119312526016785/gsnr-20260120.htm
 
-[15] NEAR governance HSP-029: coverage of the House of Stake vote (passed 2 Nov 2026; max inflation 2.5% to 1.6% over 24 months). KuCoin News; NEAR Protocol on X; 247wallst.com, 2-3 Nov 2026 (cited, not re-runnable).
+[15] NEAR governance HSP-029: proposal page, gov.near.org (primary source, read 14 Nov 2026) — status Succeeded, Super Majority; 24-month ramp of max issuance 2.5% to 1.6%. Ballot tally (≈3.29M veNEAR in favour, 1,071 abstaining, ≈99.97% support, closed 2 Nov 2026) is secondary reporting of the houseofstake.org ballot (CoinCodex and others) — cited as reported, not primary-verified.
 https://www.kucoin.com/news/flash/the-maximum-annual-inflation-rate-of-near-will-be-phased-down-from-2-5-to-1-6
 
 [16] NEAR Foundation. Evolving NEAR Tokenomics, 24 Feb 2026; The State of NEAR: Q2 2026, 8 Jul 2026 (context; claims cross-checked on-chain).
