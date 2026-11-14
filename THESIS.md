@@ -75,6 +75,23 @@ G1/G2 now confirm the reported figures, so they are stated here as measured, not
 - **Reported:** NEAR's own on-chain fees fell from $5.18M to $1.27M over the reported period. Not recomputed in this repo (G6 measures success rate and gas, not USD fees); cited as reported, not as measured.
 - **Buybacks offset only a fraction of issuance.** Emissions offset: September 25.2%, October 18.4%, November month-to-date 18.8% (14 Nov 2026 scrape of revenue.near.org, the source of Figure 6 and `data/stats.json`). It moves as the month accrues. Bought tokens are held, not burned — "buyback offsets issuance" is not the same as "supply shrinks". The model threshold (§6) makes the same point in volume terms.
 - **Buyback wallet, full history — corrected.** A full-history Nearblocks pull (3,408 receipts, 18 Mar–14 Nov 2026) replaces the earlier incomplete reading: inflows total **2,293,097 NEAR** (3,391 inbound receipts, 3,360 of them from `intents.near`); outflow is exactly **3 transactions totalling 12,025 NEAR** — 20 NEAR on 20 Mar 2026, 5 NEAR on 20 Mar 2026, and the only material outflow, 12,000 NEAR on 10 Jul 2026; balance **2,281,071.57 NEAR**. The widely quoted "1.74M NEAR" is the revenue dashboard's attribution of buybacks, **not** the on-chain total — do not cite it as the wallet balance. In the trailing 30 days (falsifier F4, §7) outflow is 0.00 NEAR.
+
+**Buyback wallet staircase** — cumulative balance of `buybacks.multisignature.near` at each month-end, from the full-history NearBlocks pull (3,408 receipts, 18 Mar–14 Nov 2026), checked 14 Nov 2026:
+
+| End of | Cumulative balance (NEAR) |
+|---|---:|
+| Mar 2026 | 40 |
+| Apr 2026 | 34,649 |
+| May 2026 | 262,591 |
+| Jun 2026 | 486,475 |
+| Jul 2026 | 662,716 |
+| Aug 2026 | 940,842 |
+| Sep 2026 | 1,847,720 |
+| Oct 2026 | 2,144,977 |
+| 14 Nov 2026 | 2,281,072 |
+
+Inflows of 2,293,097 NEAR minus the three outflows totalling 12,025 NEAR reconcile to the 2,281,072 NEAR balance (2,281,071.57 NEAR at fetch time).
+
 - Structural risks: Rhea concentrates NEAR DEX volume (a single point of failure); Across, UniswapX and 1inch Fusion compete with Intents; solver/attestor centralisation is unverified; one recovered exploit is not a guarantee against the next.
 
 **Result of the check:** confirmed by G1/G2 as measured above. The counter-evidence is not a footnote to the thesis; it is the reason for the verdict in §6.
