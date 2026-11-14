@@ -26,6 +26,9 @@ An investment thesis on NEAR, presented as two static pages: a full thesis dashb
 - **The falsifiers were fixed in advance** — defined in the author's
   earlier public working repo before this snapshot existed; see
   "Pre-registration" below.
+- **The frozen snapshot is hash-pinned:** [`SNAPSHOT-MANIFEST.md`](SNAPSHOT-MANIFEST.md)
+  — `sha256sum -c data/SHA256SUMS.txt` proves the shipped data is
+  byte-identical to the 14 Nov 2026 freeze.
 - **The concession is pre-written:** [`THESIS-OBITUARY.md`](THESIS-OBITUARY.md)
   — the exact text that gets published, unedited except for the date and
   the falsifier's name, on the day any falsifier fires.
@@ -69,6 +72,7 @@ is recorded in [`data/manifest.json`](data/manifest.json), which
 
 | File | Source | Rows | Pulled (UTC) |
 | --- | --- | ---: | --- |
+| `data/buyback_census_full_history.json` | Raw NearBlocks pull behind the §5 census: every receipt of buybacks.multisignature.near, 18 Mar – 14 Nov 2026 (3,408 receipts examined) | 3,408 | 2026-11-14 |
 | `data/buyback_wallet_30d.json` | Nearblocks API (read-only) | 767 | 2026-11-14 |
 | `data/defillama_intents_dexs.json` | DefiLlama /summary/dexs | — | 2026-11-14 |
 | `data/defillama_intents_fees.json` | DefiLlama /summary/fees | — | 2026-11-14 |

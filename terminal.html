@@ -125,6 +125,14 @@
                 border-radius:999px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;min-height:2.4rem;
                 transition:background .15s ease}
       .resetbtn:hover{background:#1a5246}
+      .scenrow{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 14px}
+      .scenrow .resetbtn{margin-top:0}
+      .scenrow .resetbtn.active{background:#1a5246;border-color:var(--teal)}
+      label.sl.greyed{opacity:.45}
+      label.sl.greyed input[type=range]{cursor:not-allowed}
+      .ticks{font-size:11.5px;color:var(--dim);line-height:1.5;margin-top:6px}
+      .scennote{border:1px solid var(--line);border-radius:12px;padding:12px 15px;background:#0a1214;
+                color:#b7cbc4;font-size:13.5px;line-height:1.6;margin-top:14px}
       footer{margin-top:44px;padding-top:18px;color:var(--dim);font-size:12.5px;line-height:1.65;text-align:center}
       a{color:var(--tealdark)}
     </style>
@@ -207,9 +215,30 @@
         }, [base]);
 
         var slState = useState(function () {
-          return { vol: SNAPSHOT.f1.vol, take: SNAPSHOT.f2.takeBps, cap: SNAPSHOT.f2.capture };
+          return { vol: SNAPSHOT.f1.vol, take: SNAPSHOT.f2.takeBps, cap: SNAPSHOT.f2.capture, iss: 2.5 };
         });
         var sl = slState[0], setSl = slState[1];
+        var scenState = useState(null);
+        var scen = scenState[0], setScen = scenState[1];
+        var SCENARIOS = {
+          vol40: {
+            vals: { vol: 76.0, take: 5.13, cap: 31.5, iss: 2.5 },
+            text: "F1 prints inside its watch band ($75\u2013100M/day): per the decision table in \u00a77, the verdict holds \u2014 margin thin, stated as such. One more bad month ends the consecutive run that began 23 Aug 2026."
+          },
+          caphalf: {
+            vals: { vol: 126.58, take: 5.13, cap: 15.8, iss: 2.5 },
+            text: "F2 prints inside its watch band (capture 15\u201320%): per the decision table in \u00a77, the verdict holds \u2014 margin thin, stated as such. The capture assumption, not demand, becomes the load-bearing wall."
+          },
+          hsp: {
+            vals: { vol: 126.58, take: 5.13, cap: 31.5, iss: 2.5 },
+            text: "F3's first gate fails at the 16 Nov checkpoint: no ramp, no glidepath \u2014 V* stays $573M/day (4.53\u00d7 today's volume) and \u00a76's forward easing is void. The verdict is unchanged, because it was never priced on the ramp; what dies is the schedule on which the threshold would have fallen. (F3 itself remains decidable on 30 Jun 2027, per \u00a77.)"
+          }
+        };
+        function applyScenario(id) {
+          touchedRef.current = true;
+          setSl(Object.assign({}, SCENARIOS[id].vals));
+          setScen({ id: id, text: SCENARIOS[id].text });
+        }
         var touchedRef = useRef(false);
 
         function setSlider(key, val) {
@@ -218,7 +247,8 @@
         }
         function reset() {
           touchedRef.current = false;
-          setSl({ vol: defaults.vol, take: defaults.take, cap: defaults.cap });
+          setScen(null);
+          setSl({ vol: defaults.vol, take: defaults.take, cap: defaults.cap, iss: 2.5 });
         }
 
         /* ===== Live fetch from DefiLlama — runs on load and on status-chip click (retry) ===== */
@@ -268,7 +298,7 @@
             (function(){ var now = new Date(); var hh = String(now.getHours()).padStart(2, "0"); var mm = String(now.getMinutes()).padStart(2, "0"); setUpdatedAt(hh + ":" + mm); })();
             setFetchStatus("live");
             if (!touchedRef.current) {
-              setSl({ vol: nb.f1.vol, take: nb.f2.takeBps, cap: nb.f2.capture });
+              setSl({ vol: nb.f1.vol, take: nb.f2.takeBps, cap: nb.f2.capture, iss: 2.5 });
             }
           }
           function grab(url, key, pick) {
@@ -289,7 +319,7 @@
         if (sl.take < 3 || sl.cap < 15) fired.push("F2");
         var nFired = fired.length;
         var isActual = Math.abs(sl.vol - defaults.vol) < 1e-9 && Math.abs(sl.take - defaults.take) < 1e-9 &&
-                       Math.abs(sl.cap - defaults.cap) < 1e-9;
+                       Math.abs(sl.cap - defaults.cap) < 1e-9 && Math.abs(sl.iss - 2.5) < 1e-9;
 
         function st(id) {
           if (fired.indexOf(id) >= 0) return { chipClass: "deadchip", chipLabel: "Triggered", status: "triggered" };
@@ -361,13 +391,20 @@
         ];
 
         function slider(key, label, valText, min, max, step) {
-          return e("label", { className: "sl" }, label, " ", e("b", null, valText),
+          var greyed = (key === "iss" && scen && scen.id === "hsp");
+          return e("label", { className: "sl" + (greyed ? " greyed" : "") }, label, " ", e("b", null, valText),
             e("input", {
-              type: "range", min: min, max: max, step: step, value: sl[key],
+              type: "range", min: min, max: max, step: step, value: sl[key], disabled: !!greyed,
               onChange: function (ev) { setSlider(key, parseFloat(ev.target.value)); },
               "aria-label": label
             }));
         }
+
+        /* ===== B2 — V* at the slider's issuance, per §6's glidepath =====
+           The multiple is computed from the DISPLAYED whole-$M figure, exactly
+           as §6's table was: 479 / 126.58 = 3.78×, not the full-precision 3.79×. */
+        var vstarM = Math.round((573450593.17 * sl.iss / 2.5) / 1e6);
+        var vstarMult = (vstarM / 126.58).toFixed(2);
 
         var verdict;
         if (nFired === 0) {
@@ -444,6 +481,11 @@
               [cards[0], cards[1], cards[2], cards[3], cards[4], cards[5]].map(cardEl)
             ),
             e("div", { className: "killhead" }, "Kill switch \u2014 stress the snapshot inputs"),
+            e("div", { className: "scenrow" },
+              e("button", { className: "resetbtn" + (scen && scen.id === "vol40" ? " active" : ""), onClick: function () { applyScenario("vol40"); } }, "Volume \u221240%"),
+              e("button", { className: "resetbtn" + (scen && scen.id === "caphalf" ? " active" : ""), onClick: function () { applyScenario("caphalf"); } }, "Capture halves"),
+              e("button", { className: "resetbtn" + (scen && scen.id === "hsp" ? " active" : ""), onClick: function () { applyScenario("hsp"); } }, "HSP vetoed")
+            ),
             e("p", { className: "hsub" },
               "F1 and F2 read the slider values, starting from the frozen snapshot readings. Push volume under $75M/day, ",
               "or the effective take under 3 bps / capture under 15%, and watch the board react."),
@@ -454,11 +496,18 @@
               ),
               e("div", { className: "killcol" },
                 slider("take", "Effective take", sl.take.toFixed(2) + " bps", 0, 10, 0.01),
+                e("div", null,
+                  slider("iss", "Issuance cap (HSP-029 ramp)", sl.iss.toFixed(2) + "%", 1.6, 2.5, 0.01),
+                  e("div", { className: "ticks" }, "2.09% \u2248 Dec 2027 \u00b7 1.64% \u2248 Dec 2028 \u00b7 1.60% = ramp complete, Feb 2029 (earliest schedule)")
+                ),
                 e("div", { className: "snapbox" },
                   e("div", { className: "sk" }, "Snapshot readings \u00b7 14 Nov 2026"),
                   e("div", { className: "sv" },
                     "Volume ", e("b", null, "$126.58M/day"), " \u00b7 take ", e("b", null, "5.13 bps"),
                     " \u00b7 capture ", e("b", null, "31.5%")),
+                  e("div", { className: "sv" },
+                    "V* at this issuance: ", e("b", null, "$" + vstarM + "M/day"),
+                    " \u2014 " + vstarMult + "\u00d7 today's volume"),
                   e("div", { style: { marginTop: "10px" } },
                     e("span", { className: "tag" + (isActual ? "" : " scen") },
                       isActual ? "Actual \u2014 snapshot readings" : "Scenario \u2014 your inputs, not a checker run")),
@@ -466,6 +515,11 @@
                 )
               )
             ),
+            e("p", { className: "hsub", style: { margin: "16px 0 0" } },
+              "The issuance slider does not fire a falsifier. It prices F3's question \u2014 what the break-even volume ",
+              "becomes if the HSP-029 ramp runs \u2014 using \u00a76's glidepath: at 1.60% the threshold falls to ",
+              "$367M/day, still 2.90\u00d7 today's volume."),
+            scen ? e("div", { className: "scennote" }, scen.text) : null,
             verdict
           ),
           e("footer", null,
