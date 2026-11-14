@@ -138,19 +138,19 @@
       var e = React.createElement;
       var useState = React.useState, useEffect = React.useEffect, useMemo = React.useMemo, useRef = React.useRef;
 
-      /* ===== Snapshot — checker run 13 Nov 2026, data as of 12 Nov 2026 ===== */
+      /* ===== Snapshot — checker run 14 Nov 2026, data as of 13 Nov 2026 ===== */
       var SNAPSHOT = {
-        price: 3.51,
-        modelPrice: 3.5118584696509734,
-        marketCap: 4606063089,
-        marketCapRank: 24,
+        price: 3.33,
+        modelPrice: 3.33,
+        marketCap: 4367032709,
+        marketCapRank: 22,
         supply: 1311421234.0,
         cumulative: 37614087536,
-        pToFees: 66.1,
-        emissionsOffset: 18.6,
-        vstar16: 604767964.73, /* V* per day at 16 bps take, 2.5% issuance */
-        f1: { vol: 125.805115, from: "2026-10-14", to: "2026-11-12" },
-        f2: { takeBps: 5.24, capture: 32.16 }
+        pToFees: 62.3,
+        emissionsOffset: 18.8,
+        vstar16: 573450593.17, /* V* per day at 16 bps take, 2.5% issuance */
+        f1: { vol: 126.58, from: "2026-10-15", to: "2026-11-13" },
+        f2: { takeBps: 5.13, capture: 31.5 }
       };
 
       function fmtUSD(n, d) {
@@ -313,7 +313,7 @@
               ", or capture below ", e("b", null, "15%"), " of gross, sustained 60 days. Reading: ",
               e("b", null, sl.take.toFixed(2) + " bps"), " effective take; capture ",
               e("b", null, sl.cap.toFixed(1) + "%"),
-              " (60-day window to 12 Nov; October alone: 6.28 bps, 39.2%)."),
+              " (60-day window to 13 Nov; October alone: 6.28 bps, 39.2%)."),
             endpoint: "DefiLlama fees + revenue.near.org"
           }, st("F2")),
           {
@@ -331,10 +331,11 @@
             name: "Buyback wallet integrity",
             chipClass: "ok", chipLabel: "Not triggered", status: "not_triggered",
             body: e("span", null,
-              "Threshold: net outflow over ", e("b", null, "5% of balance (~112K NEAR)"),
+              "Threshold: net outflow over ", e("b", null, "5% of balance (~114K NEAR)"),
               " in any 30d window, or two months of balance decline. Reading: balance ",
-              e("b", null, "2,273,914 NEAR"), "; ", e("b", null, "0.00 NEAR"),
-              " out (0.0000% of balance), 783 receipts, 14 Oct\u201313 Nov."),
+              e("b", null, "2,280,770 NEAR"), "; ", e("b", null, "287,394 NEAR"),
+              " in, ", e("b", null, "0.00 NEAR"),
+              " out (0.0000% of balance), 768 receipts, 15 Oct\u201314 Nov."),
             endpoint: "RPC view_account + NearBlocks txns"
           },
           {
@@ -397,7 +398,7 @@
         } else if (fetchStatus === "failed") {
           statusChip = e("button", Object.assign({}, chipProps, { className: "statuschip failed" }),
             e("span", { className: "retryic", "aria-hidden": "true" }, "\u21bb"),
-            e("span", { className: "dot", "aria-hidden": "true" }), "Data not updated \u2014 13 Nov snapshot");
+            e("span", { className: "dot", "aria-hidden": "true" }), "Data not updated \u2014 14 Nov snapshot");
         } else {
           statusChip = e("button", Object.assign({}, chipProps, { className: "statuschip checking" }),
             e("span", { className: "retryic", "aria-hidden": "true" }, "\u21bb"),
@@ -425,7 +426,7 @@
           e("div", { className: "topbar" },
             e("div", { className: "topleft" },
               e("span", { className: "srcbadge" }, "Data source: ",
-                e("b", null, "embedded snapshot \u2014 checker run of 13 Nov 2026")),
+                e("b", null, "embedded snapshot \u2014 checker run of 14 Nov 2026")),
               e("a", { className: "backlink", href: "https://0xrard.github.io/Near-Hackathon/" }, "\u2190 Back to dashboard")
             ),
             statusChip
@@ -434,7 +435,7 @@
             e("h1", { className: "trialhead" }, "The invalidation dashboard"),
             e("p", { className: "lede" },
               "The thesis dies by measurement, not by opinion. Each falsifier carries its re-runnable endpoint, ",
-              "its threshold, and its reading at the 13 Nov 2026 snapshot. A single triggered falsifier downgrades ",
+              "its threshold, and its reading at the 14 Nov 2026 snapshot. A single triggered falsifier downgrades ",
               "the thesis; two concurrent triggers end it. Drag the kill-switch sliders and try to fire F1 or F2 yourself.")
           ),
           e("div", { className: "invwrap" },
@@ -454,10 +455,10 @@
               e("div", { className: "killcol" },
                 slider("take", "Effective take", sl.take.toFixed(2) + " bps", 0, 10, 0.01),
                 e("div", { className: "snapbox" },
-                  e("div", { className: "sk" }, "Snapshot readings \u00b7 13 Nov 2026"),
+                  e("div", { className: "sk" }, "Snapshot readings \u00b7 14 Nov 2026"),
                   e("div", { className: "sv" },
-                    "Volume ", e("b", null, "$126M/day"), " \u00b7 take ", e("b", null, "5.24 bps"),
-                    " \u00b7 capture ", e("b", null, "32.2%")),
+                    "Volume ", e("b", null, "$126.58M/day"), " \u00b7 take ", e("b", null, "5.13 bps"),
+                    " \u00b7 capture ", e("b", null, "31.5%")),
                   e("div", { style: { marginTop: "10px" } },
                     e("span", { className: "tag" + (isActual ? "" : " scen") },
                       isActual ? "Actual \u2014 snapshot readings" : "Scenario \u2014 your inputs, not a checker run")),
@@ -469,7 +470,7 @@
           ),
           e("footer", null,
             "NEAR Protocol \u2014 Beyond the Price \u00b7 0xrard \u00b7 NEAR Hackathon 2026, Investment Thesis track. ",
-            "This terminal shows the embedded snapshot of the checker run of 13 Nov 2026 (data as of 12 Nov 2026) and refreshes F1, price and V* live from DefiLlama when the network allows. ",
+            "This terminal shows the embedded snapshot of the checker run of 14 Nov 2026 (data as of 13 Nov 2026) and refreshes F1, price and V* live from DefiLlama when the network allows. ",
             "Verdict: priced for delivery. Not financial advice.")
         );
       }
