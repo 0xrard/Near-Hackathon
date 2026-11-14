@@ -1199,7 +1199,7 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
     }
 
     /* ============ Chapter 2 — Research Design ============ */
-    function ChResearch(){
+    function ChResearch(props){
       return html`<section class="chapter">
         <div class="ch-head"><h2>Research Design and Data Infrastructure</h2></div>
         <div class="prose">
@@ -1242,11 +1242,14 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
           <h3>What ‘priced for delivery’ means</h3>
           <p>Verdict language matters. A ‘valuation gap’ argument claims the market is wrong about current fundamentals, so price should converge to fair value with high probability. A ‘priced for delivery’ argument claims the market has fairly priced a continuation of disclosed trends, so future returns require outperformance relative to those trends, and the downside is defined by the falsifiers rather than by the market's error. This report adopts the second framing on purpose: Chapter 5 quantifies the growth already embedded in the market capitalization, and Chapter 6 defines the observations that would flip the verdict. The report deliberately does not argue a valuation gap, and the conclusion should be read as a statement about expectations, not about mispricing.</p>
         </div>
+        <div class="ch-next">
+          <button class="btn-next" onClick=${props.onNext}>Next ></button>
+        </div>
       </section>`;
     }
 
     /* ============ Chapter 3 — Fundamentals ============ */
-    function ChFundamentals(){
+    function ChFundamentals(props){
       return html`<section class="chapter">
         <div class="ch-head"><h2>Network Fundamentals and Onchain Evidence</h2></div>
         <div class="prose">
@@ -1274,11 +1277,14 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
           <h3>Staking and the validator set</h3>
           <p>The chain itself is stable and well-secured. The RPC reports 351 active validators with 582.1 million NEAR staked — 44.4% of total supply — at protocol version 88, with 43,200-block epochs (about 7 hours at the current 0.577-second average block time) and a cumulative 5.48 billion transactions since genesis. At the on-chain maximum inflation of 2.5% with 90% of new issuance flowing to stakers, the gross staking yield is 5.07%; an independent survey in October put it at 4.90% using a 45.9% staking ratio, which confirms the formula. The open question is behavioral: when the inflation cut takes effect and gross yield falls toward 3.2%, does the staking ratio hold? A large unstaking wave would raise effective float; a stable ratio would confirm that stakers price the cut as dilution relief rather than yield loss. This is tracked as part of falsifier F3 in Chapter 6.</p>
         </div>
+        <div class="ch-next">
+          <button class="btn-next" onClick=${props.onNext}>Next ></button>
+        </div>
       </section>`;
     }
 
     /* ============ Chapter 4 — Tokenomics ============ */
-    function ChTokenomics(){
+    function ChTokenomics(props){
       return html`<section class="chapter">
         <div class="ch-head"><h2>Tokenomics and the Deflationary Mechanics</h2></div>
         <div class="prose">
@@ -1369,11 +1375,14 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
         <div class="prose">
           <p>The inflation cut is not a free lunch for stakers, and the report should not pretend otherwise: gross staking yield falls from about 5.1% to about 3.2% as the cut phases in. For a staker, the exchange is roughly neutral in NEAR terms (yield falls in proportion to dilution) and mildly positive in float terms; for a non-staker it is unambiguously positive, since the dilution they absorb without staking drops by about 36%. A new, small demand sink is also worth noting: staking NEAR to pay for confidential AI inference had attracted more than 750 thousand NEAR by Q3 2026 — a non-DeFi yield consumer that did not exist a year ago (cited, not re-runnable).</p>
         </div>
+        <div class="ch-next">
+          <button class="btn-next" onClick=${props.onNext}>Next ></button>
+        </div>
       </section>`;
     }
 
     /* ============ Chapter 5 — Models ============ */
-    function ChModels(){
+    function ChModels(props){
       const [take, setTake] = useState(16);
       const [cap, setCap] = useState(32.6);
       const [price, setPrice] = useState(3.33);
@@ -1452,6 +1461,9 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
           <h3>Verdict</h3>
           <p>On re-runnable evidence, NEAR’s $4.36 billion market capitalization already embeds a 2.4x growth of captured revenue at a mature fee multiple — essentially the volume level at which, post-inflation-cut, net issuance flips negative. Current data (capture rising to 39.2%, a funded and outbound-free buyback wallet, a passed 36% mint cut) is consistent with that path but does not exceed it. We find no evidence of a valuation gap on the metrics we can re-run; we find a fairly priced bet on execution. Position sizing should reflect execution risk, and the falsifiers below — not conviction — should drive revisions.</p>
         </div>
+        <div class="ch-next">
+          <button class="btn-next" onClick=${props.onNext}>Next ></button>
+        </div>
       </section>`;
     }
 
@@ -1491,6 +1503,9 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
           <h3>Conclusion</h3>
           <p>The re-runnable evidence describes a project in mid-transition with the pivot roughly half-paid-for. Demand compounds: $37.78 billion settled all-time, 87% of it in the last twelve months, at 3.3 times the year-ago 90-day pace. Capture scales: net revenue up from $27.6 thousand to $2.50 million per month in fourteen months, with the monthly capture rate at 39.2% and the buyback wallet accumulating 2.28 million NEAR with zero observed outflows. Supply tightens on a committed schedule: a passed 36% reduction in maximum inflation, which cuts the deflation crossover to 2.9 times current volume — a level buybacks reach only in the bull scenario, and only once the cut is live. Against that, the layer-1’s own usage has contracted 83% year-over-year, DeFi TVL is shrinking, the fee base is one product wide, and price shows no daily tether to the fundamental series.</p>
           <p>The valuation absorbs the improvement. At 145 times captured revenue — or 62.3 times gross fees — the market capitalization already pays for bull-case volume at a mature multiple; the base case at a mature multiple prices NEAR materially below spot. That is what ‘priced for delivery’ means operationally: the investor’s edge cannot be the observation that NEAR has a revenue engine, because the market has priced the engine; the edge, if any, is in monitoring whether delivery beats or misses the embedded path — weekly, from public endpoints, using the falsifier dashboard above and the one-command reproduction script in Appendix B. Judged on the evidence and not the conviction: <b>hold-with-verification, add only on outperformance, exit on the falsifiers.</b></p>
+        </div>
+        <div class="ch-next">
+          <button class="btn-next" onClick=${props.onNext}>Next ></button>
         </div>
       </section>`;
     }
@@ -1775,11 +1790,11 @@ const FIG = {"F1":{"base":1751414400000,"close":[2.22,2.275,2.134,2.149,2.18,2.1
 
           <main id="thesis-main">
             ${tab === "summary"      && html`<${ChSummary} onNext=${() => go("research")} />`}
-            ${tab === "research"     && html`<${ChResearch} />`}
-            ${tab === "fundamentals" && html`<${ChFundamentals} />`}
-            ${tab === "tokenomics"   && html`<${ChTokenomics} />`}
-            ${tab === "models"       && html`<${ChModels} />`}
-            ${tab === "risks"        && html`<${ChRisks} f1Live=${live ? live.volume : null} />`}
+            ${tab === "research"     && html`<${ChResearch} onNext=${() => go("fundamentals")} />`}
+            ${tab === "fundamentals" && html`<${ChFundamentals} onNext=${() => go("tokenomics")} />`}
+            ${tab === "tokenomics"   && html`<${ChTokenomics} onNext=${() => go("models")} />`}
+            ${tab === "models"       && html`<${ChModels} onNext=${() => go("risks")} />`}
+            ${tab === "risks"        && html`<${ChRisks} f1Live=${live ? live.volume : null} onNext=${() => go("appendices")} />`}
             ${tab === "appendices"   && html`<${ChAppendices} />`}
           </main>
 
