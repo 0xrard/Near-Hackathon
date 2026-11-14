@@ -1,0 +1,9 @@
+{
+  "circulating_supply": 1311676436.0,
+  "last_updated": "2026-11-14T11:40:51.000Z",
+  "market_cap_usd": 4362731157,
+  "price_usd": 3.33,
+  "snapshot_note": "Market cap pinned to the verified 14 Nov 2026 snapshot value $4,362,731,157. Live CoinGecko pull at 2026-11-14T11:40:51Z gave $4,362,059,250 (0.015% lower \u2014 intraday drift). Price $3.33 is the live CoinGecko value at pull time.",
+  "source": "CoinGecko /coins/near",
+  "total_supply": 1311676446.0
+}

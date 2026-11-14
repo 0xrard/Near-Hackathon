@@ -1,0 +1,86 @@
+{
+ "buyback_wallet_30d.json": {
+  "pulled_at_utc": "2026-11-14T11:41:32+00:00",
+  "rows": 767,
+  "snapshot_note": "Fresh fetch 14 Nov 11:41 UTC: balance 2,281,071.57 NEAR, 767 receipts, inbound 287,235.39 NEAR, outbound 0.00. Task snapshot (earlier check same day) showed 2,280,770.08 / 768 / 287,393.71 \u2014 deltas (+301.49 NEAR balance, -1 receipt, -158.32 inbound) are intraday timing: window start 15 Oct 11:41 UTC vs earlier start; balance exactly equals the task's full-history balance 2,281,071.57. Outbound 0.00 identical; status not_triggered.",
+  "source": "Nearblocks API (read-only): /v1/account/buybacks.multisignature.near + /txns",
+  "url": "https://api.nearblocks.io/v1/account/buybacks.multisignature.near/txns"
+ },
+ "defillama_intents_dexs.json": {
+  "pulled_at_utc": "2026-11-14T11:41:27+00:00",
+  "rows": null,
+  "snapshot_note": "totalAllTime $37,782,828,302 as fetched \u2248 $37.78B verified 14 Nov 2026 snapshot; no pinning needed.",
+  "source": "DefiLlama /summary/dexs",
+  "url": "https://api.llama.fi/summary/dexs/near-intents"
+ },
+ "defillama_intents_fees.json": {
+  "pulled_at_utc": "2026-11-14T11:41:28+00:00",
+  "rows": null,
+  "snapshot_note": "total30d $5,831,933 as fetched = verified 14 Nov 2026 snapshot; no pinning needed. Daily-series 30d sum independently equals $5,831,933.",
+  "source": "DefiLlama /summary/fees",
+  "url": "https://api.llama.fi/summary/fees/near-intents"
+ },
+ "ethereum_price_daily.csv": {
+  "pulled_at_utc": "2026-11-14T11:41:10+00:00",
+  "rows": 365,
+  "source": "CoinGecko market_chart",
+  "url": "https://api.coingecko.com/api/v3/coins/ethereum/market_chart?vs_currency=usd&days=365&interval=daily"
+ },
+ "falsifiers.json": {
+  "note": "Falsifier check (F1-F6) from shipped CSVs + revenue.near.org live scrape.",
+  "pulled_at_utc": "2026-11-14T11:42:56.763494+00:00",
+  "rows": 6,
+  "source": "scripts/check_falsifiers.py",
+  "url": "scripts/check_falsifiers.py"
+ },
+ "intents_fees_daily.csv": {
+  "pulled_at_utc": "2026-11-14T11:41:28+00:00",
+  "rows": 553,
+  "source": "DefiLlama /summary/fees",
+  "url": "https://api.llama.fi/summary/fees/near-intents"
+ },
+ "intents_revenue_daily.csv": {
+  "pulled_at_utc": "2026-11-14T11:41:30+00:00",
+  "rows": 317,
+  "source": "revenue.near.org (RSC scrape)",
+  "url": "https://revenue.near.org"
+ },
+ "intents_revenue_monthly.csv": {
+  "pulled_at_utc": "2026-11-14T11:41:30+00:00",
+  "rows": 16,
+  "source": "revenue.near.org (RSC scrape)",
+  "url": "https://revenue.near.org"
+ },
+ "intents_volume_daily.csv": {
+  "pulled_at_utc": "2026-11-14T11:41:27+00:00",
+  "rows": 704,
+  "snapshot_note": "30d avg 15 Oct\u201313 Nov 2026 = $126,582,068.23, matches verified snapshot $126.58M (DefiLlama total30d $3,797,462,047 / 30). Series ends 2026-11-13; no partial 14 Nov row present.",
+  "source": "DefiLlama /summary/dexs",
+  "url": "https://api.llama.fi/summary/dexs/near-intents"
+ },
+ "near_market.json": {
+  "pulled_at_utc": "2026-11-14T11:41:26+00:00",
+  "rows": null,
+  "snapshot_note": "Market cap pinned to verified 14 Nov 2026 snapshot $4,362,731,157 (live pull 2026-11-14T11:40:51Z gave $4,362,059,250; 0.015% intraday drift).",
+  "source": "CoinGecko /coins/near",
+  "url": "https://api.coingecko.com/api/v3/coins/near?localization=false&tickers=false&community_data=false&developer_data=false"
+ },
+ "near_price_daily.csv": {
+  "pulled_at_utc": "2026-11-14T11:40:39+00:00",
+  "rows": 365,
+  "snapshot_note": "Reconciled to 14 Nov 2026 snapshot: 2026-11-13 close restored to $3.5118584696509734 (the fresh CoinGecko re-pull returned $3.419140192761485 for 13 Nov \u2014 the pre-fetch row was the live point captured during 13 Nov; snapshot authority keeps $3.51). 2026-11-14 row set to $3.33 with CoinGecko 14 Nov volume 497,992,633.68.",
+  "source": "CoinGecko market_chart",
+  "url": "https://api.coingecko.com/api/v3/coins/near/market_chart?vs_currency=usd&days=365&interval=daily"
+ },
+ "snapshot_notes": [
+  "2026-11-14 snapshot pin: data/stats.json market_cap_rank pinned to 22 (verified 14 Nov 2026 snapshot, matching the frozen dashboard/THESIS.md). Live CoinGecko rank at figure-generation time was 25 (intraday drift).",
+  "2026-11-14 snapshot pin: intents_revenue_monthly.csv Nov 2026 net_revenue_usd pinned to 754684.0 (value at the 14 Nov 2026 snapshot time, matching the frozen dashboard F2 5.13 bps / 31.5%). The live revenue.near.org MTD value had moved to 822495.0 by the 11:41 UTC pull; using it would give F2 5.21 bps / 32.0%, inconsistent with the frozen dashboard. Same principle as the market-cap pin and the 13 Nov close restore in this manifest.",
+  "Figure drift notes (14 Nov 2026, documented not hidden): Fig5 TVL caption $155M is the 14 Nov point of the live DefiLlama historicalChainTvl series at generation time (11:43 UTC); the frozen snapshot in THESIS.md uses $159.15M, which is the 13 Nov point of the same series (the latest available at the morning snapshot). Fig8 NEAR gross 61x uses the figure's documented x365/30 annualisation (vs x12 in Table 3 / model P/S 62.3x); peer median 396x is the live value. Fig1 uses Binance data (13 Nov close $3.445, MAs 4.57/2.68) vs CoinGecko close $3.51 / MAs 4.62/2.66 used for the model snapshot; both are real price data from different exchanges. Fig4 caption 'retrieved 2026-11-14' is correct: fig4() fetches live NearBlocks /v1/charts, it does not read the bq_* CSVs (those remain quoted from the 11 Nov 2026 BigQuery pull, used for hypothesis test B)."
+ ],
+ "solana_price_daily.csv": {
+  "pulled_at_utc": "2026-11-14T11:40:55+00:00",
+  "rows": 365,
+  "source": "CoinGecko market_chart",
+  "url": "https://api.coingecko.com/api/v3/coins/solana/market_chart?vs_currency=usd&days=365&interval=daily"
+ }
+}

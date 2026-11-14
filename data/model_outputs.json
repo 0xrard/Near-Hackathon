@@ -1,0 +1,299 @@
+{
+  "generated_at_utc": "2026-11-14T11:42:28+00:00",
+  "placeholder": false,
+  "placeholder_inputs": [],
+  "inputs": {
+    "daily_intents_volume_usd": 126582068.23333333,
+    "daily_intents_volume_source": "DefiLlama /summary/dexs (30-day average, 2026-10-15 to 2026-11-13)",
+    "near_price_usd": 3.33,
+    "near_price_source": "CoinGecko market_chart",
+    "total_supply_near": 1311421234.0,
+    "total_supply_source": "model/config.yaml",
+    "issuance_annual_rate": 0.025,
+    "net_issuance_2027e": 0.015,
+    "net_issuance_2027e_note": "Nino's estimate (9 Nov 2026), 2027E \u2014 verify from on-chain burn data before citing.",
+    "fee_take_rates_bps": [
+      5,
+      10,
+      16,
+      20
+    ],
+    "base_take_rate_bps": 16,
+    "fee_capture_rate": 0.326,
+    "projection_years": 5
+  },
+  "hero_stats": {
+    "cumulative_intents_volume_usd": 37782828302.0,
+    "cumulative_intents_volume_source": "DefiLlama /summary/dexs (totalAllTime)",
+    "cumulative_intents_volume_as_of": "2026-11-14T11:41:27+00:00",
+    "annualised_fees_usd": 69983196.0,
+    "annualised_fees_definition": "Gross Intents fees, 30-day run-rate (total30d x 12)",
+    "annualised_fees_source": "DefiLlama /summary/fees (total30d x 12)",
+    "annualised_fees_as_of": "2026-11-14T11:41:28+00:00",
+    "market_cap_usd": 4362731157.0,
+    "market_cap_source": "CoinGecko /coins/near",
+    "market_cap_as_of": "2026-11-14T11:41:26+00:00",
+    "inflation_rate": 0.025,
+    "inflation_source": "Protocol parameter (5% -> 2.5% on 30 Oct 2025)"
+  },
+  "deflationary_threshold": {
+    "daily_volume_usd_by_take_rate_bps": {
+      "5": 1835041898.1511054,
+      "10": 917520949.0755527,
+      "16": 573450593.1722203,
+      "20": 458760474.53777635
+    },
+    "annual_issuance_value_usd": 109175817.73050001,
+    "note": "Daily Intents volume at which buybacks offset new issuance. Price-dependent: the higher the NEAR price, the further the threshold. Recomputed from primary data \u2014 never copied from any published figure."
+  },
+  "scenarios": [
+    {
+      "name": "bear",
+      "annual_growth": 0.0,
+      "annual_settlement_volume_usd": 46202454905.166664,
+      "annual_fee_revenue_usd_by_bps": {
+        "5": 23101227.45258333,
+        "10": 46202454.90516666,
+        "16": 73923927.84826666,
+        "20": 92404909.81033333
+      },
+      "fee_revenue_basis": "gross protocol fees (volume x take rate), before capture_rate",
+      "what_must_be_true": "Intents volume flat; no new chains or solvers; on-chain activity keeps falling."
+    },
+    {
+      "name": "base",
+      "annual_growth": 0.15,
+      "annual_settlement_volume_usd": 92929639753.65157,
+      "annual_fee_revenue_usd_by_bps": {
+        "5": 46464819.87682578,
+        "10": 92929639.75365156,
+        "16": 148687423.6058425,
+        "20": 185859279.50730312
+      },
+      "fee_revenue_basis": "gross protocol fees (volume x take rate), before capture_rate",
+      "what_must_be_true": "Intents volume grows with cross-chain demand; on-chain activity holds; fee capture stable."
+    },
+    {
+      "name": "bull",
+      "annual_growth": 0.3,
+      "annual_settlement_volume_usd": 171546480891.0405,
+      "annual_fee_revenue_usd_by_bps": {
+        "5": 85773240.44552025,
+        "10": 171546480.8910405,
+        "16": 274474369.4256648,
+        "20": 343092961.782081
+      },
+      "fee_revenue_basis": "gross protocol fees (volume x take rate), before capture_rate",
+      "what_must_be_true": "Intents becomes the default cross-chain rail; agent-economy volume adds a second leg."
+    }
+  ],
+  "sensitivity": {
+    "growth_rates": [
+      0.0,
+      0.15,
+      0.3
+    ],
+    "take_rates_bps": [
+      5,
+      10,
+      16,
+      20
+    ],
+    "annual_fee_revenue_usd": {
+      "0.0": {
+        "5": 23101227.45258333,
+        "10": 46202454.90516666,
+        "16": 73923927.84826666,
+        "20": 92404909.81033333
+      },
+      "0.15": {
+        "5": 46464819.87682578,
+        "10": 92929639.75365156,
+        "16": 148687423.6058425,
+        "20": 185859279.50730312
+      },
+      "0.3": {
+        "5": 85773240.44552025,
+        "10": 171546480.8910405,
+        "16": 274474369.4256648,
+        "20": 343092961.782081
+      }
+    }
+  },
+  "p_to_fees": 62.339695903570906,
+  "p_to_fees_note": "Market cap / annualised gross fees (30d x 12). Nino's 9 Nov 2026 dossier input (P/F 58.8x) was computed at that earlier date; compare only at the same date.",
+  "hypothesis_tests": {
+    "A_sticky": {
+      "status": "cannot_compute",
+      "reason": "Swapper-level data not available: the Intents Explorer API needs a JWT (see THESIS.md \u00a78). If the API has no swapper field, this stays uncomputed."
+    },
+    "B_additive": {
+      "status": "computed",
+      "reason": null,
+      "method": "Pearson r on daily log changes (primary); levels below are descriptive only",
+      "correlations": {
+        "active_accounts": {
+          "n_days": 364,
+          "pearson_r": 0.030092692236456522
+        },
+        "tx_count": {
+          "n_days": 364,
+          "pearson_r": 0.20181205063616875
+        }
+      },
+      "correlations_levels": {
+        "active_accounts": {
+          "n_days": 365,
+          "pearson_r": -0.1901154200951336
+        },
+        "tx_count": {
+          "n_days": 365,
+          "pearson_r": -0.10334999725797388
+        }
+      }
+    },
+    "lead_lag_volume_vs_price": {
+      "status": "computed",
+      "reason": null,
+      "method": "Pearson r of daily log changes: volume growth[t-k] vs price return[t]; k>0 means volume leads. Best lag chosen by |r|. Levels are in lags_levels (descriptive only).",
+      "lags": {
+        "-7": {
+          "n_days": 356,
+          "pearson_r": 0.0134083267683683
+        },
+        "-6": {
+          "n_days": 357,
+          "pearson_r": 0.038091877859105214
+        },
+        "-5": {
+          "n_days": 358,
+          "pearson_r": -0.02038078612715207
+        },
+        "-4": {
+          "n_days": 359,
+          "pearson_r": -0.03950301772695817
+        },
+        "-3": {
+          "n_days": 360,
+          "pearson_r": -0.09836403516746342
+        },
+        "-2": {
+          "n_days": 361,
+          "pearson_r": 0.08662930933904464
+        },
+        "-1": {
+          "n_days": 362,
+          "pearson_r": 0.08261836130456075
+        },
+        "0": {
+          "n_days": 363,
+          "pearson_r": -0.0769992714134833
+        },
+        "1": {
+          "n_days": 364,
+          "pearson_r": 0.04082606779224183
+        },
+        "2": {
+          "n_days": 364,
+          "pearson_r": 0.01411994781356536
+        },
+        "3": {
+          "n_days": 364,
+          "pearson_r": 0.047702768202802844
+        },
+        "4": {
+          "n_days": 364,
+          "pearson_r": 0.023607096435016062
+        },
+        "5": {
+          "n_days": 364,
+          "pearson_r": -0.03421589454775584
+        },
+        "6": {
+          "n_days": 364,
+          "pearson_r": 0.00012090181051957786
+        },
+        "7": {
+          "n_days": 364,
+          "pearson_r": -0.056297699284475824
+        }
+      },
+      "lags_levels": {
+        "-7": {
+          "n_days": 357,
+          "pearson_r": 0.47423908221975886
+        },
+        "-6": {
+          "n_days": 358,
+          "pearson_r": 0.467525850032245
+        },
+        "-5": {
+          "n_days": 359,
+          "pearson_r": 0.4704444802794014
+        },
+        "-4": {
+          "n_days": 360,
+          "pearson_r": 0.4815280874384795
+        },
+        "-3": {
+          "n_days": 361,
+          "pearson_r": 0.49382977963741387
+        },
+        "-2": {
+          "n_days": 362,
+          "pearson_r": 0.5179670815613528
+        },
+        "-1": {
+          "n_days": 363,
+          "pearson_r": 0.5274947665226195
+        },
+        "0": {
+          "n_days": 364,
+          "pearson_r": 0.5246805511729337
+        },
+        "1": {
+          "n_days": 365,
+          "pearson_r": 0.5313630880698867
+        },
+        "2": {
+          "n_days": 365,
+          "pearson_r": 0.5434516084953138
+        },
+        "3": {
+          "n_days": 365,
+          "pearson_r": 0.549337502706018
+        },
+        "4": {
+          "n_days": 365,
+          "pearson_r": 0.551590897737347
+        },
+        "5": {
+          "n_days": 365,
+          "pearson_r": 0.5464513597991495
+        },
+        "6": {
+          "n_days": 365,
+          "pearson_r": 0.5479494855165287
+        },
+        "7": {
+          "n_days": 365,
+          "pearson_r": 0.5478269632719389
+        }
+      },
+      "best_lag_days": -3,
+      "best_pearson_r": -0.09836403516746342,
+      "noise_band_95": 0.10330107023216706,
+      "best_is_significant": false,
+      "placebo": {
+        "method": "Permutation test: price log-returns shuffled across dates (1000 permutations, seed 20261113); same lag scan (max |r| over lags -7..7) re-run on each shuffle.",
+        "n_permutations": 1000,
+        "seed": 20261113,
+        "observed_best_abs_r": 0.09836403516746342,
+        "placebo_max_abs_r_mean": 0.1065709049989831,
+        "placebo_max_abs_r_p95": 0.15462572333785785,
+        "p_value": 0.5924075924075924,
+        "interpretation": "Observed best |r| is NOT distinguishable from noise (p >= 0.05): the lead/lag scan finds nothing a random shuffle would not also find. No exploitable timing edge."
+      }
+    }
+  }
+}
